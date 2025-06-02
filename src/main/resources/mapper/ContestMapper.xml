@@ -7,13 +7,14 @@
     <resultMap id="BaseResultMap" type="org.liahnu.bot.model.domain.Contest">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="type" column="type" jdbcType="VARCHAR"/>
-            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+            <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+            <result property="createGroupId" column="create_group_id" jdbcType="VARCHAR"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,type,create_user,
-        create_time,update_time
+        id,type,create_user_id,
+        create_group_id,create_time,update_time
     </sql>
 </mapper>
