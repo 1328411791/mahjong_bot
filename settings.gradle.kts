@@ -1,0 +1,2 @@
+rootProject.name = "mahjong-bot"
+
