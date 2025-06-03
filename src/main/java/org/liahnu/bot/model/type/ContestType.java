@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.liahnu.bot.util.point.CalculateService;
 import org.liahnu.bot.util.point.impl.BaseRCRCalculateRule;
 import org.liahnu.bot.util.point.impl.EmptyCalculateServiceImpl;
+import org.liahnu.bot.util.point.impl.MleagueRuleCalculateServiceImpl;
 
 @Getter
 @AllArgsConstructor
@@ -14,7 +15,9 @@ public enum ContestType {
 
     MCR("MCR", null,"国标麻将比赛",4, EmptyCalculateServiceImpl.class),
 
-    RCR_A_RULE("RCR_A_RULE", RCR,"A规则比赛",4,null)
+    A("RCR_A_RULE", RCR,"A规则比赛",4,null),
+
+    M("RCR_M_RULE", RCR,"M规则比赛",4, MleagueRuleCalculateServiceImpl.class)
     ;
 
     // 类型

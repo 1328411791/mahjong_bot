@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
+import org.liahnu.bot.model.type.ContestStatus;
 import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestRecordService;
@@ -55,6 +56,11 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
         record.setPoint(score);
         record.setRecordUserId(recordUserId);
         this.save(record);
+
+        if(contest.getStatus()== ContestStatus.NOT_START){
+            contest.setStatus(ContestStatus.START);
+            contestService.updateById(contest);
+        }
 
 
         this.calculateScore(contestId);

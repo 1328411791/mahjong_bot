@@ -1,5 +1,6 @@
 package org.liahnu.bot.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.liahnu.bot.model.domain.Elo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2025-06-03 23:37:22
 * @Entity org.liahnu.bot.model.domain.Elo
 */
+@Mapper
 public interface EloMapper extends BaseMapper<Elo> {
 
 }
