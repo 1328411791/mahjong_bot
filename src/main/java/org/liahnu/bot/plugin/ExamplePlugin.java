@@ -34,7 +34,7 @@ public class ExamplePlugin {
 
     // 如果 at 参数设定为 AtEnum.NEED 则只有 at 了机器人的消息会被响应
     @GroupMessageHandler
-    @MessageHandlerFilter(at = AtEnum.NEED)
+    @MessageHandlerFilter(at = AtEnum.NEED,cmd = "test")
     public void fun2(Bot bot,GroupMessageEvent event) {
         // 以注解方式调用可以根据自己的需要来为方法设定参数
         // 例如群组消息可以传递 GroupMessageEvent, Bot, Matcher 多余的参数会被设定为 null

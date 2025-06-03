@@ -1,5 +1,6 @@
 package org.liahnu.bot.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.liahnu.bot.model.domain.Contest;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2025-06-03 04:21:35
 * @Entity org.liahnu.bot.model.domain.Contest
 */
+@Mapper
 public interface ContestMapper extends BaseMapper<Contest> {
 
 }

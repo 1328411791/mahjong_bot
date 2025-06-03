@@ -17,7 +17,7 @@ dependencies {
     implementation("com.mikuac:shiro:2.4.3")
     compileOnly ("org.projectlombok:lombok:1.18.30") // 使用最新版本
     annotationProcessor ("org.projectlombok:lombok:1.18.30")
-    implementation("com.baomidou:mybatis-plus-boot-starter:3.5.6")
+    implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.6")
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("cn.hutool:hutool-all:5.8.22")
     implementation("org.springframework.boot:spring-boot-starter")

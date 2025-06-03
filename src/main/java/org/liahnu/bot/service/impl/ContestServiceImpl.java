@@ -1,5 +1,7 @@
 package org.liahnu.bot.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestStatus;
@@ -7,6 +9,8 @@ import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.mapper.ContestMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author li hanyu
@@ -23,11 +27,21 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest>
         contest.setCreateUserId(userId);
         contest.setCreateGroupId(groupId);
         contest.setType(type);
-        contest.setStatus(ContestStatus.START);
+        contest.setStatus(ContestStatus.NOT_START);
         this.save(contest);
 
         // 获取插入的id
         return contest;
+    }
+
+    @Override
+    public List<Contest> queryLastContest4Group(Long groupId, Integer page, Integer size) {
+        Page<Contest> contestPage = new Page<>(page,size);
+        LambdaQueryWrapper<Contest> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Contest::getCreateGroupId,groupId);
+        queryWrapper.ne(Contest::getStatus, ContestStatus.END);
+        queryWrapper.orderByDesc(Contest::getCreateTime);
+        return this.page(contestPage,queryWrapper).getRecords();
     }
 }
 
