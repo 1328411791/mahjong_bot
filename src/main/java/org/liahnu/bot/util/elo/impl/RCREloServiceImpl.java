@@ -45,9 +45,9 @@ public class RCREloServiceImpl implements EloService {
                 double actual = calculateActualScore(playerScore, opponentScore);
                 double kFactor = calculateKFactor(playerScore, opponentScore);
 
-                newRating += updateRating(playerRating, kFactor, actual, expected);
+                newRating +=  kFactor * (actual - expected);  // 更新评分
             }
-            BigDecimal change = BigDecimal.valueOf(newRating - playerRating);
+            BigDecimal change = BigDecimal.valueOf(playerRating - newRating);
             eloChanges.put(playerId, change);
         }
 
@@ -58,7 +58,7 @@ public class RCREloServiceImpl implements EloService {
      * 计算期望得分 We
      */
     private double calculateExpectedScore(double playerRating, double opponentRating) {
-        return 1.0 / (1 + Math.pow(10, (opponentRating - playerRating) / 400.0));
+        return 1 / (1 + Math.pow(10, (opponentRating - playerRating) / 400));
     }
 
     /**
@@ -66,9 +66,9 @@ public class RCREloServiceImpl implements EloService {
      */
     private double calculateActualScore(double playerScore, double opponentScore) {
 
-//        if (playerScore > opponentScore) return 1.0;
-//        if (playerScore == opponentScore) return 0.5;
-        return playerScore;
+       if (playerScore > opponentScore) return 1.0;
+       if (playerScore == opponentScore) return 0.5;
+       return 0;
     }
 
     /**
@@ -79,10 +79,5 @@ public class RCREloServiceImpl implements EloService {
         return  16 * (1 + ptDiff / 400);
     }
 
-    /**
-     * 更新Elo评分
-     */
-    private long updateRating(double currentRating, double kFactor, double actualScore, double expectedScore) {
-        return Math.round(currentRating + kFactor * (actualScore - expectedScore));
-    }
+
 }
