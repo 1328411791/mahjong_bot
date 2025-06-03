@@ -1,0 +1,3 @@
+org.liahnu.bot.util.point.impl.RMUCalculateServiceImpl
+org.liahnu.bot.util.point.impl.BaseRCRCalculateRule
+org.liahnu.bot.util.point.impl.EmptyCalculateServiceImpl

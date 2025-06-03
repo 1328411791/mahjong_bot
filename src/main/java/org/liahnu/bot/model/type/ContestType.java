@@ -2,16 +2,19 @@ package org.liahnu.bot.model.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.liahnu.bot.util.point.CalculateService;
+import org.liahnu.bot.util.point.impl.BaseRCRCalculateRule;
+import org.liahnu.bot.util.point.impl.EmptyCalculateServiceImpl;
 
 @Getter
 @AllArgsConstructor
 public enum ContestType {
 
-    RCR("RCR", null ,"立直麻将比赛-四人",4),
+    RCR("RCR", null ,"立直麻将比赛-四人",4, BaseRCRCalculateRule.class),
 
-    MCR("MCR", null,"国标麻将比赛",4),
+    MCR("MCR", null,"国标麻将比赛",4, EmptyCalculateServiceImpl.class),
 
-    RCR_A_RULE("RCR_A_RULE", RCR,"A规则比赛",4)
+    RCR_A_RULE("RCR_A_RULE", RCR,"A规则比赛",4,null)
     ;
 
     // 类型
@@ -25,5 +28,8 @@ public enum ContestType {
 
     // 游玩人数
     private final Integer playNum;
+
+    // 计算服务类
+    private final Class<? extends CalculateService> calculateServiceClass;
 
 }
