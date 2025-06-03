@@ -59,7 +59,6 @@ public class ContestRecordPlugin {
     public void updateContest(Bot bot, PrivateMessageEvent event, Matcher matcher) {
         String contestIdStr = matcher.group("contestId");
         contestRecordService.calculateScore(Integer.valueOf(contestIdStr));
-
     }
 
 
