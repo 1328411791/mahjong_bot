@@ -15,13 +15,15 @@ public class CalculatePointTest {
     public void test4BaseRule() {
 
         Map<DirectionType, Integer> context = Map.of(
-                DirectionType.EAST, 49400,
-                DirectionType.SOUTH, 32900,
-                DirectionType.WEST, 11100,
-                DirectionType.NORTH, 6600
+                DirectionType.EAST, 26000,
+                DirectionType.SOUTH, 26000,
+                DirectionType.WEST, 24000,
+                DirectionType.NORTH, 24000
         );
 
         Map<DirectionType, BigDecimal> rmu = RuleCalculate.calculate(ContestType.RCR, context);
+
+        System.out.println(rmu);
 
         Map<DirectionType, BigDecimal> complete = Map.of(
                 DirectionType.EAST, new BigDecimal("39.4"),

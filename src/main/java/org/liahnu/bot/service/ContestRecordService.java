@@ -16,5 +16,7 @@ public interface ContestRecordService extends IService<ContestRecord> {
 
 
     @Transactional
-    boolean addRecord(Integer contestId, String direction, Integer score, Long recordUserId, Long groupId);
+    ContestRecord addRecord(Integer contestId, String direction, Integer score, Long recordUserId, Long groupId);
+
+    void calculateScore(Integer contestId);
 }
