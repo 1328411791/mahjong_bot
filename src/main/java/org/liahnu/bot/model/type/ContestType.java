@@ -7,11 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ContestType {
 
-    RCR("RCR", null ,"立直麻将比赛-四人"),
+    RCR("RCR", null ,"立直麻将比赛-四人",4),
 
-    MCR("MCR", null,"国标麻将比赛"),
+    MCR("MCR", null,"国标麻将比赛",4),
 
-    RCR_A_RULE("RCR_A_RULE", RCR,"A规则比赛")
+    RCR_A_RULE("RCR_A_RULE", RCR,"A规则比赛",4)
     ;
 
     // 类型
@@ -22,5 +22,8 @@ public enum ContestType {
 
     // 描述
     private final String description;
+
+    // 游玩人数
+    private final Integer playNum;
 
 }

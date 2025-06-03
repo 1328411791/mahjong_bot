@@ -1,6 +1,7 @@
 package org.liahnu.bot.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.liahnu.bot.model.domain.ContestRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,6 +14,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 @Mapper
 public interface ContestRecordMapper extends BaseMapper<ContestRecord> {
 
+    /*
+    * 获取比赛中天添加的记录数
+    * @param contestId
+     */
+
+    @Select("select count(*) from contest_record where contest_id = #{contestId}")
+    Integer getContestRecordCount(Integer contestId);
 }
 
 
