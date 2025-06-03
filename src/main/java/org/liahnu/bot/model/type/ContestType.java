@@ -2,18 +2,20 @@ package org.liahnu.bot.model.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.liahnu.bot.util.elo.EloService;
-import org.liahnu.bot.util.elo.impl.RCREloServiceImpl;
+import org.liahnu.bot.util.elo.EloCalculateService;
+import org.liahnu.bot.util.elo.impl.RCREloCalculateServiceImpl;
 import org.liahnu.bot.util.point.CalculateService;
 import org.liahnu.bot.util.point.impl.BaseRCRCalculateRule;
 import org.liahnu.bot.util.point.impl.EmptyCalculateServiceImpl;
 import org.liahnu.bot.util.point.impl.MleagueRuleCalculateServiceImpl;
 
+import java.util.Objects;
+
 @Getter
 @AllArgsConstructor
 public enum ContestType {
 
-    RCR("RCR", null ,"立直麻将比赛-四人",4, BaseRCRCalculateRule.class, RCREloServiceImpl.class),
+    RCR("RCR", null ,"立直麻将比赛-四人",4, BaseRCRCalculateRule.class, RCREloCalculateServiceImpl.class),
 
     MCR("MCR", null,"国标麻将比赛",4, EmptyCalculateServiceImpl.class,null),
 
@@ -38,5 +40,9 @@ public enum ContestType {
     private final Class<? extends CalculateService> calculateServiceClass;
 
     // elo计算类
-    private final Class<? extends EloService> eloCalculateServiceClass;
+    private final Class<? extends EloCalculateService> eloCalculateServiceClass;
+
+    public ContestType getParent(){
+        return Objects.requireNonNullElse(parent, this);
+    }
 }

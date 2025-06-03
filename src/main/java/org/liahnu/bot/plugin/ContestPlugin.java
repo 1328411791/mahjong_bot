@@ -5,6 +5,7 @@ import com.mikuac.shiro.annotation.AnyMessageHandler;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
+import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
@@ -38,14 +39,15 @@ public class ContestPlugin {
         Contest contest = contestService.createContest(event.getUserId(), event.getGroupId(), type);
 
         // 展示 创建成功，输出比赛 信息
-        String message = "✅ 创建成功，比赛信息如下：\n";
-        message += "| 字段       | 内容           |\n";
-        message += "|------------|----------------|\n";
-        message += "| 比赛ID     | " + contest.getId() + " |\n";
-        message += "| 比赛类型   | " + contest.getType() + " |\n";
-        message += "| 比赛状态   | " + contest.getStatus() + " |\n";
+        MsgUtils builder = MsgUtils.builder();
+        builder.text("✅ 创建成功，比赛信息如下：\n");
+        builder.text("| 字段       | 内容          |\n");
+        builder.text("|-----------|--------------|\n");
+        builder.text("| 比赛ID     | " + contest.getId() + " |\n");
+        builder.text("| 比赛类型   | " + contest.getType() + " |\n");
+        builder.text("| 比赛状态   | " + contest.getStatus() + " |\n");
 
-        bot.sendGroupMsg(event.getGroupId(), message, false);
+        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
     }
 
     @GroupMessageHandler
@@ -59,13 +61,16 @@ public class ContestPlugin {
             bot.sendGroupMsg(event.getGroupId(), "没有找到任何比赛", false);
             return;
         }
-         String message = "| 字段       | 内容           |\n";
-          message += "|------------|----------------|\n";
+
+        MsgUtils builder = MsgUtils.builder();
+         builder.reply(event.getMessageId());
+         builder.text(" | 字段       | 内容           |\n");
+        builder.text("|------------|----------------|\n");
            for (Contest contest : contests) {
-              message += "| 比赛ID     | " + contest.getId() + " |\n";
-              message += "| 比赛类型   | " + contest.getType() + " |\n";
-              message += "| 比赛状态   |  " + contest.getStatus() + " |\n";
+               builder.text("| 比赛ID     | " + contest.getId() + " |\n");
+               builder.text("| 比赛类型   | " + contest.getType() + " |\n");
+               builder.text("| 比赛状态   |  " + contest.getStatus() + " |\n");
           }
-        bot .sendGroupMsg(event.getGroupId(), message, false);
+        bot .sendGroupMsg(event.getGroupId(), builder.build(), false);
     }
 }

@@ -9,6 +9,7 @@ public enum EloType {
 
     RCR("RCR"),
 
+    MCR("MCR"),
 
     ;
 

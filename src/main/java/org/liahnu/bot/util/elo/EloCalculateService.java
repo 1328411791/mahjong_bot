@@ -1,11 +1,9 @@
 package org.liahnu.bot.util.elo;
 
-import org.liahnu.bot.model.type.DirectionType;
-
 import java.math.BigDecimal;
 import java.util.Map;
 
-public interface EloService {
+public interface EloCalculateService {
     /**
      * 计算玩家得分
      *

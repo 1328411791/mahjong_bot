@@ -2,6 +2,11 @@ package org.liahnu.bot.service;
 
 import org.liahnu.bot.model.domain.Elo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.liahnu.bot.model.type.ContestType;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author li hanyu
@@ -10,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface EloService extends IService<Elo> {
 
+    BigDecimal getElo(Long userId, ContestType type);
+
+    List<Elo> updateElo(Map<Long, BigDecimal> map, ContestType type);
 }

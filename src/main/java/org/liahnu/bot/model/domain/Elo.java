@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
+import org.liahnu.bot.model.type.ContestType;
 
 /**
  * elo表
@@ -30,7 +31,7 @@ public class Elo implements Serializable {
      * 
      */
     @TableField(value = "type")
-    private String type;
+    private ContestType type;
 
     /**
      * 

@@ -4,6 +4,7 @@ import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.PrivateMessageHandler;
 import com.mikuac.shiro.annotation.common.Shiro;
+import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
@@ -45,13 +46,15 @@ public class ContestRecordPlugin {
         // 调用 service 添加记录逻辑
         contestRecordService.addRecord(contestId, direction, score,event.getUserId(),event.getGroupId());
 
-        String message = "✅ 已成功添加记录：\n" +
-                "| 字段       | 内容           |\n" +
-                "|------------|----------------|\n" +
-                "| 比赛ID     | " + contestId + " |\n"+
-                "| 方向       | " + direction + " |\n" +
-                "| 分数       | " + score + " |\n";
-        bot.sendGroupMsg(event.getGroupId(), message, false);
+        MsgUtils builder = MsgUtils.builder();
+        builder.reply(event.getMessageId());
+        builder.text("✅ 已成功添加记录：\n");
+        builder.text("| 字段       | 内容           |\n");
+        builder.text("|------------|----------------|\n");
+        builder.text("| 比赛ID     | " + contestId + " |\n");
+        builder.text("| 方向       | " + direction + " |\n");
+        builder.text("| 分数       | " + score + " |\n");
+        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
     }
 
     @PrivateMessageHandler

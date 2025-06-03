@@ -1,8 +1,7 @@
 package org.liahnu.bot.util.elo.impl;
 
-import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.util.elo.EloCalculateContext;
-import org.liahnu.bot.util.elo.EloService;
+import org.liahnu.bot.util.elo.EloCalculateService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RCREloServiceImpl implements EloService {
+public class RCREloCalculateServiceImpl implements EloCalculateService {
     // 基础K系数，适用于立直麻将的经验值
     private static final int BASE_K_FACTOR = 400;
 
