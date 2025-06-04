@@ -1,6 +1,7 @@
 package org.liahnu.bot.service.impl;
 
 import cn.hutool.core.lang.Pair;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuac.shiro.common.utils.MsgUtils;
@@ -19,7 +20,6 @@ import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
 import org.liahnu.bot.util.elo.EloCalculate;
 import org.liahnu.bot.util.elo.EloCalculateContext;
-import org.liahnu.bot.util.elo.EloCalculateService;
 import org.liahnu.bot.util.point.RuleCalculate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -87,6 +87,9 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
 
         Map<Long, Pair<BigDecimal,BigDecimal>> calculateElo = calculateElo(contestId, contest.getType());
 
+        // 更新elo变化记录
+        updateChangeElo(calculateElo,contest.getId());
+
 
         Bot bot = botContainer.robots.get(3542130180L);
 
@@ -128,6 +131,14 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
         } else {
             log.warn("找不到 Bot 实例，无法发送比赛结束消息");
         }
+    }
+
+    private void updateChangeElo(Map<Long, Pair<BigDecimal, BigDecimal>> calculateElo, Integer contestID) {
+        calculateElo.forEach((userId, pair) ->{
+            ContestEnd contestEnd = this.query().eq("contest_id",contestID).eq("user_id",userId).one();
+            contestEnd.setEloChange(pair.getValue().subtract(pair.getKey()));
+            this.updateById(contestEnd);
+        });
     }
 
     /*

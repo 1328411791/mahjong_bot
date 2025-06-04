@@ -32,20 +32,23 @@ public class ContestPlugin {
      * 创建比赛
      */
     @GroupMessageHandler
-    @MessageHandlerFilter(at = AtEnum.NEED, cmd = "创建比赛")
+    @MessageHandlerFilter(at = AtEnum.NEED, cmd = "创建比赛\\s(.*)?")
     public void createContest(Bot bot, GroupMessageEvent event, Matcher matcher) {
-        ContestType type =  ContestType.RCR;
+        String stringType = matcher.group(1);
+        ContestType type =  ContestType.valueOf(stringType);
 
         Contest contest = contestService.createContest(event.getUserId(), event.getGroupId(), type);
 
         // 展示 创建成功，输出比赛 信息
         MsgUtils builder = MsgUtils.builder();
+        builder.reply(event.getMessageId());
         builder.text("✅ 创建成功，比赛信息如下：\n");
         builder.text("| 字段       | 内容          |\n");
         builder.text("|-----------|--------------|\n");
         builder.text("| 比赛ID     | " + contest.getId() + " |\n");
         builder.text("| 比赛类型   | " + contest.getType() + " |\n");
         builder.text("| 比赛状态   | " + contest.getStatus() + " |\n");
+
 
         bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
     }

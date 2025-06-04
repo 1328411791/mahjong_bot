@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author li hanyu
@@ -19,4 +20,6 @@ public interface ContestRecordService extends IService<ContestRecord> {
     ContestRecord addRecord(Integer contestId, String direction, Integer score, Long recordUserId, Long groupId);
 
     void calculateScore(Integer contestId);
+
+    List<ContestRecord> getRecentRecord(Long userId, int i);
 }

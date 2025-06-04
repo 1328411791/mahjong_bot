@@ -6,6 +6,7 @@ import org.liahnu.bot.model.domain.Elo;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.EloService;
 import org.liahnu.bot.mapper.EloMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

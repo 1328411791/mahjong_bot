@@ -99,6 +99,11 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
 
         return false;
     }
+
+    @Override
+    public List<ContestRecord> getRecentRecord(Long userId, int i) {
+        return null;
+    }
 }
 
 

@@ -14,6 +14,7 @@ import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.ContestRecordService;
 import org.liahnu.bot.service.ContestService;
+import org.liahnu.bot.service.EloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,9 @@ public class ContestRecordPlugin {
 
     @Autowired
     private ContestRecordService contestRecordService;
+
+    @Autowired
+    private EloService eloService;
 
     /*
      * 添加记录
@@ -62,6 +66,14 @@ public class ContestRecordPlugin {
     public void updateContest(Bot bot, PrivateMessageEvent event, Matcher matcher) {
         String contestIdStr = matcher.group("contestId");
         contestRecordService.calculateScore(Integer.valueOf(contestIdStr));
+    }
+
+    @PrivateMessageHandler
+    @MessageHandlerFilter(cmd = "查询记录")
+    public void getRecord(Bot bot, PrivateMessageEvent event) {
+        Long userId = event.getUserId();
+        contestRecordService.getRecentRecord(userId,5);
+
     }
 
 
