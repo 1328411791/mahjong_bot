@@ -15,13 +15,14 @@ import java.util.Date;
 @Data
 public class UserRecordVO {
 
+    private Integer contestId;
     /**
      * 类型
      */
     private ContestType type;
 
     /**
-     *
+     * 群号
      */
     private Long groupId;
 
@@ -45,5 +46,4 @@ public class UserRecordVO {
 
     // 时间
     private Date time;
-
 }

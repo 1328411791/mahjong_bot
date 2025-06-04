@@ -11,7 +11,9 @@ import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.liahnu.bot.model.domain.Contest;
+import org.liahnu.bot.model.domain.Elo;
 import org.liahnu.bot.model.type.ContestType;
+import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestRecordService;
 import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
@@ -72,7 +74,35 @@ public class ContestRecordPlugin {
     @MessageHandlerFilter(cmd = "查询记录")
     public void getRecord(Bot bot, PrivateMessageEvent event) {
         Long userId = event.getUserId();
-        contestRecordService.getRecentRecord(userId,5);
+        List<UserRecordVO> recentRecord = contestRecordService.getRecentRecord(userId, 5);
+        List<Elo> elo = eloService.queryUserElo(userId);
+
+        MsgUtils builder = MsgUtils.builder();
+        builder.reply(event.getMessageId());
+        builder.text("用户ID: ").at(userId).text("\n");
+
+        // 输出最近记录
+        builder.text("最近比赛记录:\n");
+        for (UserRecordVO record : recentRecord) {
+            builder.text("- 比赛ID: ").text(record.getContestId().toString())
+                    .text(", 类型: ").text(record.getType().getDescription())
+                    .text(", 方向: ").text(record.getDirection().getName())
+                    .text(", 成绩: ").text(record.getPoint().toString())
+                    .text(", 精算点数: ").text(record.getEndPoint().toString())
+                    .text(", Elo: ").text(record.getEloChange().toString())
+                    .text(", 时间: ").text(record.getTime().toString())
+                    .text("\n");
+        }
+        // 输出 Elo 信息
+        builder.text("Elo 评分:\n");
+        for (Elo e : elo) {
+            builder.text("- 类型: ").text(e.getType().getDescription())
+                    .text(", 评分: ").text(e.getElo().toString())
+                    .text("\n");
+        }
+
+        // 发送消息
+        bot.sendPrivateMsg(event.getUserId(), builder.build(),false);
 
     }
 

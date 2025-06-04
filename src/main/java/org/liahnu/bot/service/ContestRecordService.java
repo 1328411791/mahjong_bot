@@ -2,6 +2,7 @@ package org.liahnu.bot.service;
 
 import org.liahnu.bot.model.domain.ContestRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.liahnu.bot.model.vo.UserRecordVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -21,5 +22,5 @@ public interface ContestRecordService extends IService<ContestRecord> {
 
     void calculateScore(Integer contestId);
 
-    List<ContestRecord> getRecentRecord(Long userId, int i);
+    List<UserRecordVO> getRecentRecord(Long userId, int i);
 }

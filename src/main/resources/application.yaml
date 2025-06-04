@@ -4,7 +4,7 @@ shiro:
   ws:
     client:
       enable: true
-      url: "ws://172.17.168.153:8081"
+      url: "ws://172.19.37.149:8081"
 
 spring:
   # 数据库配置

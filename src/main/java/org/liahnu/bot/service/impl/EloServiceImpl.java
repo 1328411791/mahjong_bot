@@ -1,5 +1,6 @@
 package org.liahnu.bot.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.liahnu.bot.model.domain.Elo;
@@ -56,6 +57,12 @@ public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
         return ret;
     }
 
+    @Override
+    public List<Elo> queryUserElo(Long userId) {
+        LambdaQueryWrapper<Elo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Elo::getUserId, userId);
+        return this.list(queryWrapper);
+    }
 }
 
 

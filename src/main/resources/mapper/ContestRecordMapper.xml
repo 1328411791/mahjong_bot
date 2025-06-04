@@ -19,4 +19,27 @@
         record_user_id,point,create_time,
         update_time
     </sql>
+
+    <select id="getUserRecord" resultType="org.liahnu.bot.model.vo.UserRecordVO">
+        select
+            contest.id as contest_id,
+            contest.create_group_id as group_id,
+            contest.type as type,
+            contest_record.direction as direction,
+            contest_record.point,
+            contest_end.end_point,
+            contest_end.elo_change,
+            contest_end.update_time as time
+
+        from
+            contest_record,contest,contest_end
+        where
+            record_user_id =  #{userId} and
+            contest_record.contest_id = contest.id and
+            contest_record.contest_id = contest_end.contest_id and
+            contest_record.record_user_id = contest_end.user_id and
+            contest.status = 'END'
+        order by
+            time desc limit #{limit}
+    </select>
 </mapper>

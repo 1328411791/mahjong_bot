@@ -18,4 +18,6 @@ public interface EloService extends IService<Elo> {
     BigDecimal getElo(Long userId, ContestType type);
 
     List<Elo> updateElo(Map<Long, BigDecimal> map, ContestType type);
+
+    List<Elo> queryUserElo(Long userId);
 }

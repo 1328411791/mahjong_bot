@@ -7,6 +7,7 @@ import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
 import org.liahnu.bot.model.type.ContestStatus;
 import org.liahnu.bot.model.type.DirectionType;
+import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestRecordService;
 import org.liahnu.bot.mapper.ContestRecordMapper;
@@ -101,8 +102,9 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
     }
 
     @Override
-    public List<ContestRecord> getRecentRecord(Long userId, int i) {
-        return null;
+    public List<UserRecordVO> getRecentRecord(Long userId, int i) {
+        List<UserRecordVO> userRecord = mapper.getUserRecord(userId, i);
+        return userRecord;
     }
 }
 

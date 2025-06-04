@@ -4,6 +4,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.liahnu.bot.model.domain.ContestRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.liahnu.bot.model.vo.UserRecordVO;
+
+import java.util.List;
 
 /**
 * @author li hanyu
@@ -21,6 +24,8 @@ public interface ContestRecordMapper extends BaseMapper<ContestRecord> {
 
     @Select("select count(*) from contest_record where contest_id = #{contestId}")
     Integer getContestRecordCount(Integer contestId);
+
+    List<UserRecordVO> getUserRecord(Long userId, Integer limit);
 }
 
 
