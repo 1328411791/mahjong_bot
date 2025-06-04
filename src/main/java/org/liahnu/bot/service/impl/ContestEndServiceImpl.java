@@ -126,11 +126,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
 
 
         // 发送消息到创建比赛的群组
-        if (bot != null) {
-            bot.sendGroupMsg(contest.getCreateGroupId(), msg.build(), false);
-        } else {
-            log.warn("找不到 Bot 实例，无法发送比赛结束消息");
-        }
+        bot.sendGroupMsg(contest.getCreateGroupId(), msg.build(), false);
     }
 
     private void updateChangeElo(Map<Long, Pair<BigDecimal, BigDecimal>> calculateElo, Integer contestID) {
