@@ -3,7 +3,6 @@ package org.liahnu.bot.biz.request.contest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.liahnu.bot.biz.base.BizServiceBaseRequest;
-import org.liahnu.bot.biz.base.BizServiceBaseResult;
 import org.liahnu.bot.model.type.ContestType;
 
 @Data

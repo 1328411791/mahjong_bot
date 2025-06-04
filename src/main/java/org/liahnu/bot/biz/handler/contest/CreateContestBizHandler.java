@@ -14,6 +14,8 @@ public class CreateContestBizHandler
 
     @Override
     public CreateContestBizServiceResult handle(CreateContestBizServiceRequest request) {
+
+        // 创建比赛
         Contest contest = new Contest();
         contest.setCreateUserId(request.getUserId());
         contest.setCreateGroupId(request.getGroupId());

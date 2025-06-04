@@ -10,7 +10,11 @@ public enum BizServiceTypeEnum {
 
     TEST("test", "测试"),
 
-    CREATE_CONTEST("create contest", "创建比赛");
+    CREATE_CONTEST("create contest", "创建比赛"),
+
+    CREATE_CONTEST_RECORD("create record","创建记录" ),
+
+    ADD_RECORD("add record","添加记录");
 
 
 
