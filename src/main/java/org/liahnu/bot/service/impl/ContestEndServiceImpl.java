@@ -18,6 +18,7 @@ import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.mapper.ContestEndMapper;
 import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
+import org.liahnu.bot.util.SignSendMessageComponent;
 import org.liahnu.bot.util.elo.EloCalculate;
 import org.liahnu.bot.util.elo.EloCalculateContext;
 import org.liahnu.bot.util.point.RuleCalculate;
@@ -45,7 +46,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
     private ContestService contestService;
 
     @Autowired
-    private BotContainer botContainer;
+    private SignSendMessageComponent botContainer;
 
     @Autowired
     private EloService eloService;
@@ -91,8 +92,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
         updateChangeElo(calculateElo,contest.getId());
 
 
-        Bot bot = botContainer.robots.get(3542130180L);
-
+        Bot bot = botContainer.getBot();
 
         MsgUtils msg = MsgUtils.builder();
         msg.text("🏆 比赛结束！以下是比赛结果：\n");
