@@ -1,6 +1,8 @@
 server:
   port: 5000
 shiro:
+  bots:
+    bot-id: 3542130180
   ws:
     client:
       enable: true

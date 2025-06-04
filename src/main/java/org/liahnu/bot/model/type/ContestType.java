@@ -15,9 +15,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public enum ContestType {
 
-    RCR("RCR", null ,"立直麻将比赛-四人",4, BaseRCRCalculateRule.class, RCREloCalculateServiceImpl.class),
+    RCR("RCR", null ,"立直麻将比赛（普通）-四人",4, BaseRCRCalculateRule.class, RCREloCalculateServiceImpl.class),
 
-    MCR("MCR", null,"国标麻将比赛",4, EmptyCalculateServiceImpl.class,null),
+    MCR("MCR", null,"国标麻将比赛",4, EmptyCalculateServiceImpl.class,RCREloCalculateServiceImpl.class),
 
     A("RCR_A_RULE", RCR,"A规则比赛",4,null,null),
 
