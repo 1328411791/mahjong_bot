@@ -1,20 +1,16 @@
 package org.liahnu.bot.service.impl;
 
-import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.liahnu.bot.mapper.ContestRecordMapper;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
-import org.liahnu.bot.model.type.ContestStatus;
-import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestRecordService;
-import org.liahnu.bot.mapper.ContestRecordMapper;
 import org.liahnu.bot.service.ContestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,39 +31,6 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
 
     @Autowired
     private ContestEndService contestEndService;
-
-
-    @Override
-    @Transactional
-    public ContestRecord addRecord(Integer contestId, String direction, Integer score, Long recordUserId, Long groupId) {
-
-        DirectionType directionType = DirectionType.getDirectionType(direction);
-
-        Contest contest = contestService.getById(contestId);
-        if (contest == null){
-            log.error("比赛不存在");
-            throw new RuntimeException("比赛不存在");
-        }
-        // 检查是否是创建者所在的比赛
-        Assert.equals(contest.getCreateGroupId(),groupId);
-
-        ContestRecord record = new ContestRecord();
-        record.setContestId(contestId);
-        record.setDirection(directionType);
-        record.setPoint(score);
-        record.setRecordUserId(recordUserId);
-        this.save(record);
-
-        if(contest.getStatus()== ContestStatus.NOT_START){
-            contest.setStatus(ContestStatus.START);
-            contestService.updateById(contest);
-        }
-
-
-        this.calculateScore(contestId);
-
-        return record;
-    }
 
     @Override
     public void calculateScore(Integer contestId) {
@@ -94,11 +57,7 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
             throw new RuntimeException("比赛不存在");
         }
 
-        if (recordCount >= contest.getType().getPlayNum()){
-            return true;
-        }
-
-        return false;
+        return recordCount >= contest.getType().getPlayNum();
     }
 
     @Override

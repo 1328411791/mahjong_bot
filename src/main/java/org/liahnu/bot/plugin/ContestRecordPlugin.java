@@ -11,22 +11,17 @@ import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.liahnu.bot.biz.BizServiceTemplate;
-import org.liahnu.bot.biz.base.BizServiceBaseResult;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
-import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.Elo;
-import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestRecordService;
-import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -91,6 +86,7 @@ public class ContestRecordPlugin {
     @MessageHandlerFilter(cmd = "查询记录")
     public void getRecord(Bot bot, PrivateMessageEvent event) {
         Long userId = event.getUserId();
+
         List<UserRecordVO> recentRecord = contestRecordService.getRecentRecord(userId, 5);
         List<Elo> elo = eloService.queryUserElo(userId);
 

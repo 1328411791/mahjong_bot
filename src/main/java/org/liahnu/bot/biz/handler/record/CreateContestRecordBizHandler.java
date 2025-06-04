@@ -1,21 +1,15 @@
 package org.liahnu.bot.biz.handler.record;
 
 import cn.hutool.core.lang.Assert;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.liahnu.bot.biz.BizServiceHandleInterface;
 import org.liahnu.bot.biz.base.AbstractBizServiceHandler;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
-import org.liahnu.bot.biz.request.contest.CreateContestBizServiceRequest;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
-import org.liahnu.bot.biz.result.contest.CreateContestBizServiceResult;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
 import org.liahnu.bot.model.type.ContestStatus;
-import org.liahnu.bot.model.type.DirectionType;
-
-import java.util.List;
 
 @Slf4j
 @BizServiceHandleInterface(type = BizServiceTypeEnum.ADD_RECORD)
@@ -53,5 +47,5 @@ public class CreateContestRecordBizHandler
         return result;
     }
 
-    }
+
 }
