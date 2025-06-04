@@ -11,6 +11,10 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.liahnu.bot.biz.BizServiceTemplate;
+import org.liahnu.bot.biz.base.BizServiceTypeEnum;
+import org.liahnu.bot.biz.request.contest.CreateContestBizServiceRequest;
+import org.liahnu.bot.biz.result.contest.CreateContestBizServiceResult;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.ContestService;
@@ -28,6 +32,9 @@ public class ContestPlugin {
     @Autowired
     private ContestService contestService;
 
+    @Autowired
+    private BizServiceTemplate bizServiceTemplate;
+
     /*
      * 创建比赛
      */
@@ -37,7 +44,11 @@ public class ContestPlugin {
         String stringType = matcher.group(1);
         ContestType type =  ContestType.valueOf(stringType);
 
-        Contest contest = contestService.createContest(event.getUserId(), event.getGroupId(), type);
+        CreateContestBizServiceRequest request = new CreateContestBizServiceRequest();
+        request.setGroupId(event.getGroupId());
+        request.setUserId(event.getUserId());
+        request.setContestType(type);
+        CreateContestBizServiceResult result = bizServiceTemplate.execute(request,BizServiceTypeEnum.CREATE_CONTEST);
 
         // 展示 创建成功，输出比赛 信息
         MsgUtils builder = MsgUtils.builder();
@@ -45,9 +56,9 @@ public class ContestPlugin {
         builder.text("✅ 创建成功，比赛信息如下：\n");
         builder.text("| 字段       | 内容          |\n");
         builder.text("|-----------|--------------|\n");
-        builder.text("| 比赛ID     | " + contest.getId() + " |\n");
-        builder.text("| 比赛类型   | " + contest.getType() + " |\n");
-        builder.text("| 比赛状态   | " + contest.getStatus() + " |\n");
+        builder.text("| 比赛ID     | " + result.getContest().getId() + " |\n");
+        builder.text("| 比赛类型   | " + result.getContest().getType() + " |\n");
+        builder.text("| 比赛状态   | " + result.getContest().getStatus() + " |\n");
 
 
         bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
