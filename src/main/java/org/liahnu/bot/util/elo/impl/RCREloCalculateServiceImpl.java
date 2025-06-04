@@ -46,7 +46,7 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
 
                 newRating +=  kFactor * (actual - expected);  // 更新评分
             }
-            BigDecimal change = BigDecimal.valueOf(playerRating - newRating);
+            BigDecimal change = BigDecimal.valueOf(playerRating + newRating);
             eloChanges.put(playerId, change);
         }
 
