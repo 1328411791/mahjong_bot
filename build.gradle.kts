@@ -1,14 +1,18 @@
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("com.palantir.docker") version "0.26.0"
 }
 
 group = "org.liahnu.bot"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenLocal()
+        maven { url = uri("https://maven.aliyun.com/repository/public/") }
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -29,3 +33,4 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
