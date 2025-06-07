@@ -24,7 +24,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("cn.hutool:hutool-all:5.8.22")
     implementation("org.springframework.boot:spring-boot-starter")
-    //testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -37,6 +37,24 @@ docker {
         baseImage.set("openjdk:17-jdk-alpine")
         ports.set(listOf(5000))
         images.set(listOf("mahjong-bot:${version}", "mahjong-bot:latest"))
-        jvmArgs.set(listOf("-Dspring.profiles.active=production", "-Xmx512m"))
+        jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m"))
     }
+    registryCredentials {
+        url = "https://ghcr.io"
+        username.set(System.getenv("GITHUB_USERNAME") ?: project.findProperty("GITHUB_TOKEN") as String?)
+        password.set(System.getenv("GITHUB_TOKEN") ?: project.findProperty("GITHUB_TOKEN") as String?)
+    }
+}
+
+tasks.register("validateImageName") {
+    doLast {
+        val imageName = docker.springBootApplication.images.get().first()
+        require(imageName == imageName.toLowerCase()) {
+            "镜像名称必须全小写: $imageName"
+        }
+    }
+}
+
+tasks.named("dockerBuildImage") {
+    dependsOn("validateImageName")
 }
