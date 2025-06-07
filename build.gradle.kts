@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.0"
-    id("com.bmuschko.docker-remote-api") version "6.7.0"
+    id("com.bmuschko.docker-spring-boot-application") version "9.4.0"
 }
 
 group = "org.liahnu.bot"
@@ -9,8 +9,8 @@ version = "1.0-SNAPSHOT"
 
 
 repositories {
-    maven { url = uri("https://maven.aliyun.com/repository/public/") }
     mavenLocal()
+    maven { url = uri("https://maven.aliyun.com/repository/public/") }
     mavenCentral()
 }
 
@@ -30,4 +30,13 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+docker {
+    springBootApplication {
+        baseImage.set("openjdk:17-jdk-alpine")
+        ports.set(listOf(5000))
+        images.set(listOf("mahjong-bot:${version}", "mahjong-bot:latest"))
+        jvmArgs.set(listOf("-Dspring.profiles.active=production", "-Xmx512m"))
+    }
 }
