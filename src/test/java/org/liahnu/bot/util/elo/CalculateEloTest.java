@@ -4,13 +4,16 @@ package org.liahnu.bot.util.elo;
 import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.Test;
 import org.liahnu.bot.model.type.ContestType;
-import org.liahnu.bot.model.type.DirectionType;
-import org.liahnu.bot.util.point.RuleCalculate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
+
 public class CalculateEloTest {
+
+    private final static Logger logger = LoggerFactory.getLogger(CalculateEloTest.class);
 
     @Test
     public void test4BaseRule() {
@@ -35,7 +38,16 @@ public class CalculateEloTest {
         Map<Long, BigDecimal> calculate = EloCalculate.calculate(ContestType.RCR, context);
 
 
-        System.out.println(calculate);
+        logger.info(calculate.toString());
+
+        Map<Long, BigDecimal> ret = Map.of(
+                1L, new BigDecimal("1030.398"),
+                2L, new BigDecimal("1007.742"),
+                3L, new BigDecimal("989.91"),
+                4L, new BigDecimal("972.064")
+        );
+
+        Assert.equals(calculate, ret);
 
     }
 
