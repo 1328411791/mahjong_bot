@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.0"
@@ -49,7 +51,7 @@ docker {
 tasks.register("validateImageName") {
     doLast {
         val imageName = docker.springBootApplication.images.get().first()
-        require(imageName == imageName.toLowerCase()) {
+        require(imageName == imageName.lowercase(Locale.getDefault())) {
             "镜像名称必须全小写: $imageName"
         }
     }
