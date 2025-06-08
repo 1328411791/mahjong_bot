@@ -43,7 +43,7 @@ docker {
     }
     registryCredentials {
         url = "https://ghcr.io"
-        username.set(System.getenv("GITHUB_USERNAME") ?: project.findProperty("GITHUB_TOKEN") as String?)
+        username.set(System.getenv("GITHUB_USERNAME") ?: project.findProperty("GITHUB_USERNAME") as String?)
         password.set(System.getenv("GITHUB_TOKEN") ?: project.findProperty("GITHUB_TOKEN") as String?)
     }
 }
