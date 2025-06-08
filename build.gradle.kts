@@ -1,5 +1,3 @@
-import java.util.*
-
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.0"
@@ -46,17 +44,4 @@ docker {
         username.set(System.getenv("GITHUB_USERNAME") ?: project.findProperty("GITHUB_USERNAME") as String?)
         password.set(System.getenv("GITHUB_TOKEN") ?: project.findProperty("GITHUB_TOKEN") as String?)
     }
-}
-
-tasks.register("validateImageName") {
-    doLast {
-        val imageName = docker.springBootApplication.images.get().first()
-        require(imageName == imageName.lowercase(Locale.getDefault())) {
-            "镜像名称必须全小写: $imageName"
-        }
-    }
-}
-
-tasks.named("dockerBuildImage") {
-    dependsOn("validateImageName")
 }

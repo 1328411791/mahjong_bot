@@ -50,3 +50,6 @@ jobs:
       # 6️⃣ 构建 Docker 镜像
       - name: Build Docker image
         run: ./gradlew dockerBuildImage
+
+      - name: Docker push image
+        run: ./gradlew dockerPushImage
