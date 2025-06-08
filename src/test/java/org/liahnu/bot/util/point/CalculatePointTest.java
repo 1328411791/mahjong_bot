@@ -31,9 +31,9 @@ public class CalculatePointTest {
 
         Map<DirectionType, BigDecimal> complete = Map.of(
                 DirectionType.EAST, new BigDecimal("16"),
-                DirectionType.SOUTH, new BigDecimal("-6"),
-                DirectionType.WEST, new BigDecimal("-16"),
-                DirectionType.NORTH, new BigDecimal("6")
+                DirectionType.SOUTH, new BigDecimal("6"),
+                DirectionType.WEST, new BigDecimal("-6"),
+                DirectionType.NORTH, new BigDecimal("-16")
         );
 
         Assert.equals(complete, rmu);
