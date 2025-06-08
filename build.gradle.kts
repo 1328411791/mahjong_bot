@@ -36,7 +36,7 @@ docker {
     springBootApplication {
         baseImage.set("openjdk:17-jdk-alpine")
         ports.set(listOf(5000))
-        images.set(listOf("mahjong-bot:${version}", "mahjong-bot:latest"))
+        images.set(listOf("ghcr.io/org.liahnu.bot/mahjong-bot:${version}", "ghcr.io/org.liahnu.bot/mahjong-bot:latest"))
         jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m"))
     }
     registryCredentials {
