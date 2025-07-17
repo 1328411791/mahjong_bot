@@ -56,6 +56,6 @@ docker {
     registryCredentials {
         url = "https://registry.cn-beijing.aliyuncs.com"
         username.set(System.getenv("DOCKERHUB_USERNAME") ?: project.findProperty("DOCKERHUB_USERNAME") as String?)
-        password.set(System.getenv("DOCKERHUB_TOKEN") ?: project.findProperty("DOCKERHUB_TOKEN") as String?)
+        password.set(System.getenv("DOCKERHUB_PASSWORD") ?: project.findProperty("DOCKERHUB_PASSWORD") as String?)
     }
 }
