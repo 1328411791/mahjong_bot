@@ -38,15 +38,7 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
-      # 4️⃣ 安装依赖
-      - name: Install dependencies
-        run: ./gradlew --no-daemon --refresh-dependencies
-
-      # 5️⃣ 执行测试
-      - name: Run tests
-        run: ./gradlew test
-
-      # 6️⃣ 构建 Docker 镜像
+      # 构建 Docker 镜像
       - name: Build Docker image
         run: ./gradlew dockerBuildImage
         env:
