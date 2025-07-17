@@ -23,7 +23,6 @@ public class BizServiceTemplate {
      */
     public <T extends BizServiceBaseRequest, R extends BizServiceBaseResult> R
         execute(T request, BizServiceTypeEnum typeEnum) {
-
         return execute(request,
                 typeEnum,
                 call ->  (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request)
@@ -39,14 +38,18 @@ public class BizServiceTemplate {
     public <T extends BizServiceBaseRequest, R extends BizServiceBaseResult> R
         execute(T request, BizServiceTypeEnum typeEnum, ServiceCallback<T, R> callback) {
 
-
         log.info("[BizServiceTemplate] execute task type {}，request:{}", typeEnum, request);
 
         callback.preHandle();
 
+        if (!callback.checkRequest(request)) {
+            log.info("[BizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
+            throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
+        }
+
         R result = callback.doExecute(request);
 
-        log.info("[BizServiceTemplate] success, result:{}",result);
+        log.info("[BizServiceTemplate] success, result:{}", result);
 
         return result;
     }
