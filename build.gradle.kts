@@ -37,7 +37,7 @@ docker {
         baseImage.set("openjdk:17-jdk-alpine")
         ports.set(listOf(5000))
         images.set(listOf("ghcr.io/1328411791/mahjong-bot:${version}", "ghcr.io/1328411791/mahjong-bot:latest"))
-        jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m"))
+        jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m","-spring.profiles.active=prod"))
     }
     registryCredentials {
         url = "https://ghcr.io"
