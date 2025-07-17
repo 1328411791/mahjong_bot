@@ -14,6 +14,11 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -36,14 +41,21 @@ tasks.test {
 
 docker {
     springBootApplication {
+        var version = System.getenv("VERSION") ?: project.findProperty("VERSION") as String?
+        if (version != null) {
+            version = "1.0-SNAPSHOT"
+        }
+
         baseImage.set("openjdk:17-jdk-alpine")
         ports.set(listOf(5000))
-        images.set(listOf("ghcr.io/1328411791/mahjong-bot:${version}", "ghcr.io/1328411791/mahjong-bot:latest"))
+        images.set(listOf(
+            "registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:$version",
+            "registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:latest"))
         jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m","-spring.profiles.active=prod"))
     }
     registryCredentials {
-        url = "https://ghcr.io"
-        username.set(System.getenv("GITHUB_USERNAME") ?: project.findProperty("GITHUB_USERNAME") as String?)
-        password.set(System.getenv("GITHUB_TOKEN") ?: project.findProperty("GITHUB_TOKEN") as String?)
+        url = "https://registry.cn-beijing.aliyuncs.com"
+        username.set(System.getenv("DOCKERHUB_USERNAME") ?: project.findProperty("DOCKERHUB_USERNAME") as String?)
+        password.set(System.getenv("DOCKERHUB_TOKEN") ?: project.findProperty("DOCKERHUB_TOKEN") as String?)
     }
 }

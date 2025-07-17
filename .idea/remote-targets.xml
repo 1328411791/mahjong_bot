@@ -13,6 +13,9 @@
             <option name="javaVersionString" value="24.0.1" />
           </config>
         </ContributedStateBase>
+        <ContributedStateBase type="GradleRuntime">
+          <config />
+        </ContributedStateBase>
       </target>
     </targets>
   </component>
