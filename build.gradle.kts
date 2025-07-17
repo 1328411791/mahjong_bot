@@ -24,9 +24,11 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("cn.hutool:hutool-all:5.8.22")
     implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
+
 
 tasks.test {
     useJUnitPlatform()
