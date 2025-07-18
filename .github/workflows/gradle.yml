@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master  # 当推送到 main 分支时触发
-      - develop/ci #  当推送到 develop/ci 分支时触发
-
+  tags:
+    - 'v*.*.*'
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -38,6 +38,16 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
+      # 设置版本
+      - name: Set version
+        id: set-version
+        run: |
+          if [ -n "${{ github.ref_name }}" ] && [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
       # 构建 Docker 镜像
       - name: Build Docker image
         run: ./gradlew dockerBuildImage
@@ -49,3 +59,4 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+          VERSION: ${{ steps.set-version.outputs.version }}
