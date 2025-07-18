@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master  # 当推送到 main 分支时触发
-  tags:
-    - 'v*.*.*'
+    tags:
+      - 'v*.*.*'
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
