@@ -10,17 +10,18 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.liahnu.bot.model.domain.Contest;
+import org.liahnu.bot.biz.BizServiceTemplate;
+import org.liahnu.bot.biz.base.BizServiceTypeEnum;
+import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
+import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Elo;
-import org.liahnu.bot.model.type.ContestType;
+import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestRecordService;
-import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -34,6 +35,9 @@ public class ContestRecordPlugin {
 
     @Autowired
     private EloService eloService;
+
+    @Autowired
+    private BizServiceTemplate bizServiceTemplate;
 
     /*
      * 添加记录
@@ -50,16 +54,24 @@ public class ContestRecordPlugin {
         Integer score = Integer.valueOf(scoreStr);
 
         // 调用 service 添加记录逻辑
-        contestRecordService.addRecord(contestId, direction, score,event.getUserId(),event.getGroupId());
+        AddContestRecordBizServiceRequest request = new AddContestRecordBizServiceRequest();
+        request.setContestId(contestId);
+        request.setDirection(DirectionType.getDirectionType(direction));
+        request.setScore(score);
+        request.setUserId(event.getUserId());
+        request.setGroupId(event.getGroupId());
+
+        AddContestRecordBizServiceResult result = bizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD);
 
         MsgUtils builder = MsgUtils.builder();
         builder.reply(event.getMessageId());
         builder.text("✅ 已成功添加记录：\n");
         builder.text("| 字段       | 内容           |\n");
         builder.text("|------------|----------------|\n");
-        builder.text("| 比赛ID     | " + contestId + " |\n");
-        builder.text("| 方向       | " + direction + " |\n");
-        builder.text("| 分数       | " + score + " |\n");
+        builder.text("| 比赛ID     | " + result.getRecord().getContestId() + " |\n");
+        builder.text("| 记录ID     | " + result.getRecord().getId() + " |\n");
+        builder.text("| 方向       | " +  result.getRecord().getDirection().getDirection() + " |\n");
+        builder.text("| 分数       | " +  result.getRecord().getPoint() + " |\n");
         bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
     }
 
@@ -74,6 +86,7 @@ public class ContestRecordPlugin {
     @MessageHandlerFilter(cmd = "查询记录")
     public void getRecord(Bot bot, PrivateMessageEvent event) {
         Long userId = event.getUserId();
+
         List<UserRecordVO> recentRecord = contestRecordService.getRecentRecord(userId, 5);
         List<Elo> elo = eloService.queryUserElo(userId);
 

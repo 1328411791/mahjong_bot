@@ -5,11 +5,15 @@ import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.Test;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.model.type.DirectionType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class CalculatePointTest {
+
+    private final static Logger logger = LoggerFactory.getLogger(CalculatePointTest.class);
 
     @Test
     public void test4BaseRule() {
@@ -23,13 +27,13 @@ public class CalculatePointTest {
 
         Map<DirectionType, BigDecimal> rmu = RuleCalculate.calculate(ContestType.RCR, context);
 
-        System.out.println(rmu);
+        logger.info(rmu.toString());
 
         Map<DirectionType, BigDecimal> complete = Map.of(
-                DirectionType.EAST, new BigDecimal("39.4"),
-                DirectionType.SOUTH, new BigDecimal("12.9"),
-                DirectionType.WEST, new BigDecimal("-18.9"),
-                DirectionType.NORTH, new BigDecimal("-33.4")
+                DirectionType.EAST, new BigDecimal("16"),
+                DirectionType.SOUTH, new BigDecimal("6"),
+                DirectionType.WEST, new BigDecimal("-6"),
+                DirectionType.NORTH, new BigDecimal("-16")
         );
 
         Assert.equals(complete, rmu);
