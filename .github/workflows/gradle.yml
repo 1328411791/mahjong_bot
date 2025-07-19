@@ -16,23 +16,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       # 2️⃣ 设置 JDK 17 环境
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: gradle
 
       # 3️⃣ 缓存 Gradle 包
-      - name: Cache Gradle packages
+      - name: Cache Gradle distribution
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
