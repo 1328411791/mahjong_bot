@@ -29,7 +29,7 @@ dependencies {
     annotationProcessor ("org.projectlombok:lombok:1.18.30")
     implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.6")
     implementation("mysql:mysql-connector-java:8.0.33")
-    implementation("cn.hutool:hutool-all:5.8.22")
+    implementation("cn.hutool:hutool-all:5.8.24")
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
