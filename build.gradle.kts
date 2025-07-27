@@ -29,7 +29,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("cn.hutool:hutool-all:5.8.24")
     implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
