@@ -92,6 +92,41 @@ mahjong-bot/
 @bot 添加记录 1001 北 -40
 ```
 
+## 部署项目
+
+### Docker
+
+```shell
+docker pull registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:latest
+docker run -d -p 8080:8080 \
+  -e bots.bot-id=your_bot_id \
+  -e bots.ws-url=your_ws_url \
+  -e mysql.url=your_mysql_url \
+  -e mysql.username=your_username \
+  -e mysql.password=your_password \
+  registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:latest
+```
+或者使用 docker-compose
+
+```yaml
+version: '3'
+services:
+  mahjong-bot:
+    image: registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - bots.bot-id=your_bot_id
+      - bots.ws-url=your_ws_url
+      - mysql.url=your_mysql_url
+      - mysql.username=your_username
+      - mysql.password=your_password
+    restart: always
+```
+
+
+
+
 
 ### 比赛结束：
 当所有玩家提交完毕，系统自动结算并推送如下消息：
