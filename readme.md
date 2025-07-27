@@ -121,11 +121,13 @@ services:
       - mysql.url=your_mysql_url
       - mysql.username=your_username
       - mysql.password=your_password
+    networks:
+      - mahjong-bot
     restart: always
 ```
 
-
-
+在部署方面需要OneBot协议的机器人运行,推荐使用[Lagrange.OneBot](https://lagrangedev.github.io/Lagrange.Doc/v1/Lagrange.OneBot/)
+,具体部署方面参考对应文档
 
 
 ### 比赛结束：
