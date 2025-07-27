@@ -18,7 +18,7 @@ public class SignSendMessageComponent {
     private BotContainer botContainer;
 
     @Value("${shiro.bots.bot-id}")
-    private String botId;
+    private Long botId;
 
     public Bot getBot(){
         Bot bot = botRef.get();

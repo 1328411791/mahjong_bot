@@ -46,8 +46,13 @@ public class BizServiceTemplate {
             log.info("[BizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
             throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
         }
-
-        R result = callback.doExecute(request);
+        R result  =  null;
+        try {
+            result = callback.doExecute(request);
+        }catch (BizServiceException e) {
+            log.error("[BizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
+            throw e;
+        }
 
         log.info("[BizServiceTemplate] success, result:{}", result);
 

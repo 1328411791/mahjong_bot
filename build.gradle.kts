@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.5.0"
+    id("org.springframework.boot") version "3.5.3"
     id("com.bmuschko.docker-spring-boot-application") version "9.4.0"
 }
 
@@ -26,10 +26,10 @@ dependencies {
     compileOnly ("org.projectlombok:lombok:1.18.30") // 使用最新版本
     annotationProcessor ("org.projectlombok:lombok:1.18.30")
     implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.6")
-    implementation("mysql:mysql-connector-java:8.0.33")
-    implementation("cn.hutool:hutool-all:5.8.22")
+    implementation("com.mysql:mysql-connector-j:9.3.0")
+    implementation("cn.hutool:hutool-all:5.8.24")
     implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
@@ -43,7 +43,7 @@ docker {
     springBootApplication {
         var version = System.getenv("VERSION") ?: project.findProperty("VERSION") as String?
         if (version != null) {
-            version = "1.0-SNAPSHOT"
+            version = "1.0"
         }
 
         baseImage.set("openjdk:17-jdk-alpine")
