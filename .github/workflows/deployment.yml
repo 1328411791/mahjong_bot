@@ -14,14 +14,14 @@ jobs:
     steps:
       # 配置 SSH
       - name: Set up SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SSH_SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}  # 如未设置，默认 22
-        script: |
-          cd /opt/1panel/docker/compose/bot 
-          docker compose down
-          docker rmi $(docker images -q)
-          docker compose up -d
+          script: |
+            cd /opt/1panel/docker/compose/bot 
+            docker compose down
+            docker rmi $(docker images -q)
+            docker compose up -d
