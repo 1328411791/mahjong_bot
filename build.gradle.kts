@@ -42,7 +42,7 @@ tasks.test {
 docker {
     springBootApplication {
         var version = System.getenv("VERSION") ?: project.findProperty("VERSION") as String?
-        if (version != null) {
+        if (version == null || version == "") {
             version = "1.0.0"
         }
 
@@ -51,7 +51,7 @@ docker {
         images.set(listOf(
             "registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:$version",
             "registry.cn-beijing.aliyuncs.com/1328411791/mahjong-bot:latest"))
-        jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m","-spring.profiles.active=prod"))
+        jvmArgs.set(listOf("-Dspring.profiles.active=prod", "-Xmx512m"))
     }
     registryCredentials {
         url = "https://registry.cn-beijing.aliyuncs.com"
