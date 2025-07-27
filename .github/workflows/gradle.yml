@@ -66,5 +66,5 @@ jobs:
     needs: build-deploy
     uses: ./.github/workflows/deployment.yml
     with:
-      version: ${{ steps.set-version.outputs.version }}
+      version: ${{ needs.build-deploy.outputs.version }}
 
