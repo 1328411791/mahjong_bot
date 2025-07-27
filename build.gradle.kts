@@ -32,7 +32,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
-    implementation("org.hibernate.validator:hibernate-validator-cdi:8.0.3.Final")
 }
 
 
