@@ -43,7 +43,7 @@ docker {
     springBootApplication {
         var version = System.getenv("VERSION") ?: project.findProperty("VERSION") as String?
         if (version != null) {
-            version = "1.0"
+            version = "1.0.0"
         }
 
         baseImage.set("openjdk:17-jdk-alpine")
