@@ -50,7 +50,7 @@ public class BizServiceTemplate {
         try {
             result = callback.doExecute(request);
         }catch (BizServiceException e) {
-            log.error("[BizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e);
+            log.error("[BizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
             throw e;
         }
 
