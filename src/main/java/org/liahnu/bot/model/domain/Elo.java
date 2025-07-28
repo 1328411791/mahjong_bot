@@ -1,13 +1,13 @@
 package org.liahnu.bot.model.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+import org.liahnu.bot.model.type.ContestType;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Data;
-import org.liahnu.bot.model.type.ContestType;
 
 /**
  * elo表
@@ -26,7 +26,7 @@ public class Elo implements Serializable {
      * 
      */
     @TableField(value = "user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 

@@ -65,6 +65,8 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
         List<UserRecordVO> userRecord = mapper.getUserRecord(userId, i);
         return userRecord;
     }
+
+
 }
 
 

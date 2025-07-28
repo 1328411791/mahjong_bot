@@ -14,21 +14,21 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
     private static final int BASE_K_FACTOR = 400;
 
     @Override
-    public Map<Long, BigDecimal> calculate(EloCalculateContext context) {
-        Map<Long, BigDecimal> ratings = context.getOriginalElo();
-        Map<Long, BigDecimal> scores = context.getScores();
+    public Map<Integer, BigDecimal> calculate(EloCalculateContext context) {
+        Map<Integer, BigDecimal> ratings = context.getOriginalElo();
+        Map<Integer, BigDecimal> scores = context.getScores();
 
         if (ratings == null || scores == null || ratings.size() != 4 || scores.size() != 4) {
             throw new IllegalArgumentException("需要四个玩家的有效数据");
         }
 
-        Map<Long, BigDecimal> eloChanges = new HashMap<>();
+        Map<Integer, BigDecimal> eloChanges = new HashMap<>();
 
-        List<Long> playerIds = new ArrayList<>(ratings.keySet());
+        List<Integer> playerIds = new ArrayList<>(ratings.keySet());
 
         for (int i = 0; i < playerIds.size(); i++) {
-            Long playerId = playerIds.get(i);
-            long playerRating = ratings.get(playerId).longValue();
+            Integer playerId = playerIds.get(i);
+            int playerRating = ratings.get(playerId).intValue();
             int playerScore = scores.get(playerId).intValue();
 
 
@@ -36,7 +36,7 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
             // 与其他三个玩家比较
             for (int j = 0; j < playerIds.size(); j++) {
                 if (i == j) continue;
-                Long opponentId = playerIds.get(j);
+                Integer opponentId = playerIds.get(j);
                 double opponentRating = ratings.get(opponentId).doubleValue();
                 double opponentScore = scores.get(opponentId).doubleValue();
 

@@ -15,10 +15,12 @@ import org.liahnu.bot.biz.base.BizServiceTypeEnum;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Elo;
+import org.liahnu.bot.model.domain.User;
 import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestRecordService;
 import org.liahnu.bot.service.EloService;
+import org.liahnu.bot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,9 @@ public class ContestRecordPlugin {
 
     @Autowired
     private BizServiceTemplate bizServiceTemplate;
+
+    @Autowired
+    private UserService userService;
 
     /*
      * 添加记录
@@ -87,8 +92,10 @@ public class ContestRecordPlugin {
     public void getRecord(Bot bot, PrivateMessageEvent event) {
         Long userId = event.getUserId();
 
+        User user = userService.getByQQId(userId);
+
         List<UserRecordVO> recentRecord = contestRecordService.getRecentRecord(userId, 5);
-        List<Elo> elo = eloService.queryUserElo(userId);
+        List<Elo> elo = eloService.queryUserElo(user.getId());
 
         MsgUtils builder = MsgUtils.builder();
         builder.reply(event.getMessageId());

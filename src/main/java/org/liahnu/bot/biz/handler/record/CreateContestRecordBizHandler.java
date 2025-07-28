@@ -9,6 +9,7 @@ import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
+import org.liahnu.bot.model.domain.User;
 import org.liahnu.bot.model.type.ContestStatus;
 
 @Slf4j
@@ -24,6 +25,10 @@ public class CreateContestRecordBizHandler
             log.error("比赛不存在");
             throw new RuntimeException("比赛不存在");
         }
+        // 获取用户
+        User user = userService.getByQQId(request.getUserId());
+
+
         // 检查是否是创建者所在的比赛
         Assert.equals(contest.getCreateGroupId(),request.getGroupId());
 
@@ -31,7 +36,7 @@ public class CreateContestRecordBizHandler
         record.setContestId(request.getContestId());
         record.setDirection(request.getDirection());
         record.setPoint(record.getPoint());
-        record.setRecordUserId(record.getRecordUserId());
+        record.setRecordUserId(user.getId());
         contestRecordService.save(record);
 
         if(contest.getStatus()== ContestStatus.NOT_START){

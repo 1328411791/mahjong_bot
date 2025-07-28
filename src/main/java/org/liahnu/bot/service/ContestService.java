@@ -1,7 +1,8 @@
 package org.liahnu.bot.service;
 
-import org.liahnu.bot.model.domain.Contest;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.liahnu.bot.model.domain.Contest;
+import org.liahnu.bot.model.type.ContestStatus;
 import org.liahnu.bot.model.type.ContestType;
 
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.List;
 */
 public interface ContestService extends IService<Contest> {
 
-    Contest createContest(Long userId, Long groupId, ContestType type);
+    Contest createContest(Integer userId, Long groupId, ContestType type);
 
     List<Contest> queryLastContest4Group(Long groupId, Integer page, Integer size);
+
+    boolean updateContestStatus(Integer contestId, ContestStatus contestStatus);
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.liahnu.bot.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="org.liahnu.bot.model.domain.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="qqId" column="qq_id" jdbcType="BIGINT"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="extInfo" column="ext_info" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,qq_id,nickname,
+        ext_info,update_time,create_time
+    </sql>
+</mapper>

@@ -19,7 +19,7 @@ public class EloCalculate {
         }
     }
 
-    public static Map<Long, BigDecimal> calculate(ContestType type, EloCalculateContext context) {
+    public static Map<Integer, BigDecimal> calculate(ContestType type, EloCalculateContext context) {
 
         Class<? extends EloCalculateService> clazz = type.getEloCalculateServiceClass();
         if(clazz ==null && type.getParent()!=null){

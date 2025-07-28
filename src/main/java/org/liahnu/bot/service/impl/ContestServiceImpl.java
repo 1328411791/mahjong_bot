@@ -1,14 +1,16 @@
 package org.liahnu.bot.service.impl;
 
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.liahnu.bot.mapper.ContestMapper;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestStatus;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.ContestService;
-import org.liahnu.bot.mapper.ContestMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest>
     implements ContestService{
 
     @Override
-    public Contest createContest(Long userId, Long groupId, ContestType type) {
+    public Contest createContest(Integer userId, Long groupId, ContestType type) {
         Contest contest = new Contest();
         contest.setCreateUserId(userId);
         contest.setCreateGroupId(groupId);
@@ -42,6 +44,16 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest>
         queryWrapper.ne(Contest::getStatus, ContestStatus.END);
         queryWrapper.orderByDesc(Contest::getCreateTime);
         return this.page(contestPage,queryWrapper).getRecords();
+    }
+
+
+    @Transactional
+    @Override
+    public boolean updateContestStatus(Integer contestId, ContestStatus contestStatus) {
+        Contest contest = this.getById(contestId);
+        Assert.isNull(contest, "比赛不存在");
+        contest.setStatus(contestStatus);
+        return this.updateById(contest);
     }
 }
 
