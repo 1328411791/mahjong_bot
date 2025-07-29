@@ -30,7 +30,7 @@ public class AddContestRecordBizServiceRequest extends BizServiceBaseRequest {
     private Integer score;
 
     /*
-    * 获取用户id
+     * 获取用户QQid
      */
     @NotNull
     private Long userId;

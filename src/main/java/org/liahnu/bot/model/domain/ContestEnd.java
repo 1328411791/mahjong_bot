@@ -1,12 +1,12 @@
 package org.liahnu.bot.model.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 比赛结算
@@ -31,7 +31,7 @@ public class ContestEnd implements Serializable {
      * 
      */
     @TableField(value = "user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 结算点数

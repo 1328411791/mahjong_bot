@@ -3,11 +3,10 @@ package org.liahnu.bot.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.liahnu.bot.mapper.EloMapper;
 import org.liahnu.bot.model.domain.Elo;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.EloService;
-import org.liahnu.bot.mapper.EloMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,7 +23,7 @@ import java.util.Map;
 public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
     implements EloService{
 
-    private Elo createDefaultElo(Long userId,ContestType type) {
+    private Elo createDefaultElo(Integer userId, ContestType type) {
         Elo elo = new Elo();
         elo.setUserId(userId);
         elo.setElo(new BigDecimal(2000));
@@ -34,7 +33,7 @@ public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
     }
 
     @Override
-    public BigDecimal getElo(Long userId, ContestType type) {
+    public BigDecimal getElo(Integer userId, ContestType type) {
 
         Elo elo = this.getOne(new QueryWrapper<Elo>().eq("user_id", userId));
         if(elo == null){
@@ -44,10 +43,10 @@ public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
     }
 
     @Override
-    public List<Elo> updateElo(Map<Long, BigDecimal> map, ContestType type){
+    public List<Elo> updateElo(Map<Integer, BigDecimal> map, ContestType type) {
         List<Elo> ret = new  ArrayList<>();
 
-        for (Map.Entry<Long, BigDecimal> entry : map.entrySet()) {
+        for (Map.Entry<Integer, BigDecimal> entry : map.entrySet()) {
             Elo elo = this.getOne(new QueryWrapper<Elo>().eq("user_id", entry.getKey()));
             elo.setElo(entry.getValue());
             this.updateById(elo);
@@ -58,7 +57,7 @@ public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
     }
 
     @Override
-    public List<Elo> queryUserElo(Long userId) {
+    public List<Elo> queryUserElo(Integer userId) {
         LambdaQueryWrapper<Elo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Elo::getUserId, userId);
         return this.list(queryWrapper);

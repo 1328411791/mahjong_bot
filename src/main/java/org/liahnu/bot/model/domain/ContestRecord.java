@@ -1,13 +1,12 @@
 package org.liahnu.bot.model.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+import org.liahnu.bot.model.type.DirectionType;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Data;
-import org.liahnu.bot.model.type.DirectionType;
 
 /**
  * 比赛记录
@@ -38,7 +37,7 @@ public class ContestRecord implements Serializable {
      * 用户id
      */
     @TableField(value = "record_user_id")
-    private Long recordUserId;
+    private Integer recordUserId;
 
     /**
      * 点数

@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class BizServiceHandlerFactory {
 
-    private static Map<String, AbstractBizServiceHandler> handlerMap = new HashMap<>();
+    private static final Map<String, AbstractBizServiceHandler> handlerMap = new HashMap<>();
 
 
     @Autowired
