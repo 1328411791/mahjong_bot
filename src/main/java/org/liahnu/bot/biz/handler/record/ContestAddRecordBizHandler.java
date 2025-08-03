@@ -14,7 +14,7 @@ import org.liahnu.bot.model.type.ContestStatus;
 
 @Slf4j
 @BizServiceHandleInterface(type = BizServiceTypeEnum.ADD_RECORD)
-public class CreateContestRecordBizHandler
+public class ContestAddRecordBizHandler
         extends AbstractBizServiceHandler<AddContestRecordBizServiceRequest, AddContestRecordBizServiceResult> {
 
     @Override
@@ -35,14 +35,18 @@ public class CreateContestRecordBizHandler
         ContestRecord record = new ContestRecord();
         record.setContestId(request.getContestId());
         record.setDirection(request.getDirection());
-        record.setPoint(record.getPoint());
+        record.setPoint(request.getScore());
         record.setRecordUserId(user.getId());
-        contestRecordService.save(record);
 
-        if(contest.getStatus()== ContestStatus.NOT_START){
-            contest.setStatus(ContestStatus.START);
-            contestService.updateById(contest);
-        }
+        transactionTemplate.execute((status -> {
+            // 如果比赛未开始，设置为开始
+            if (contest.getStatus() == ContestStatus.NOT_START) {
+                contest.setStatus(ContestStatus.START);
+                contestService.updateById(contest);
+            }
+
+            return contestRecordService.save(record);
+        }));
 
         // TODO: 等待解耦此处
         contestRecordService.calculateScore(request.getContestId());
