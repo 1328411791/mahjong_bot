@@ -9,8 +9,6 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    environment: production
-
     steps:
       # 1️⃣ 检出代码
       - name: Checkout code

@@ -10,7 +10,6 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       # 配置 SSH
       - name: Set up SSH
