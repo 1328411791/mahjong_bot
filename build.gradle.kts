@@ -32,6 +32,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    implementation("org.commonmark:commonmark:0.25.1")
+    implementation("org.commonmark:commonmark-ext-gfm-tables:0.25.1")
+    implementation("gui.ava:html2image:0.9")
 }
 
 
