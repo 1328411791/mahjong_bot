@@ -25,7 +25,12 @@ public class BizServiceTemplate {
         execute(T request, BizServiceTypeEnum typeEnum) {
         return execute(request,
                 typeEnum,
-                call ->  (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request)
+
+                call -> {
+                    @SuppressWarnings("unchecked")
+                    R result = (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request);
+                    return result;
+                }
         );
     }
 
