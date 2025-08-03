@@ -16,12 +16,17 @@ jobs:
       - name: Set up SSH
         uses: appleboy/ssh-action@v1.2.2
         with:
-          host: 117.72.183.85
+          host: ${{ secrets.SSH_SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}  # 如未设置，默认 22
           script: |
             cd /opt/1panel/docker/compose/bot 
-            docker compose down
-            docker rmi $(docker images -q)
+            # 停止并删除容器
+            docker compose down || true
+            # 删除所有与mahjong-bot相关的镜像（强制删除正在使用的镜像）
+            docker rmi $(docker images | grep "mahjong-bot" | awk '{print $3}') -f 2>/dev/null || true
+            # 清理悬空镜像
+            docker image prune -f || true
+            # 启动新容器
             docker compose up -d
