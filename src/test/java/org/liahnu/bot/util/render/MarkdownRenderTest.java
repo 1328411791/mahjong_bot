@@ -21,7 +21,7 @@ class MarkdownRenderTest {
                 """;
         String html = MarkdownRender.renderMarkdown(markdown);
         logger.info(html);
-        Assert.isNull(html);
+        Assert.notNull(html);
     }
 
     @Test
@@ -33,7 +33,7 @@ class MarkdownRenderTest {
                 | 李四 | 20 | 女 |
                 | 王五 | 22 | 男 |
                 """;
-        byte[] image = MarkdownRender.renderMarkdownWithTablesImage(markdown);
+        String image = MarkdownRender.renderMarkdownWithImage(markdown);
         // 如果在本地测试运行
 //        File file = new File("./img.png");
 //        try {
@@ -41,7 +41,8 @@ class MarkdownRenderTest {
 //        } catch (Exception e) {
 //            logger.error(e.getMessage());
 //        }
-        Assert.isNull(image);
+        logger.info(image);
+        Assert.notNull(image);
     }
 
 
