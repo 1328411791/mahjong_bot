@@ -30,7 +30,7 @@ public class User implements Serializable {
      *
      */
     @TableField(value = "nick_name")
-    private String nickName;
+    private String nickname;
     /**
      * 扩展信息
      */

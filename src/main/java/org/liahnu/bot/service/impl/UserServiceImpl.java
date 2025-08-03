@@ -25,7 +25,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (one == null) {
             one = new User();
             one.setQqId(qqId);
-            one.setNickName("qq用户" + qqId.toString());
+            one.setNickname("qq用户" + qqId.toString());
             this.save(one);
         }
 

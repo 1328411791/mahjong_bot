@@ -92,7 +92,7 @@ public class ContestRecordPlugin {
     public void getRecord(Bot bot, PrivateMessageEvent event) {
         Long userId = event.getUserId();
 
-        User user = userService.getByQQId(userId);
+        User user = userService.queryByQQId(userId);
 
         List<UserRecordVO> recentRecord = contestRecordService.getRecentRecord(userId, 5);
         List<Elo> elo = eloService.queryUserElo(user.getId());

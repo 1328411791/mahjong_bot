@@ -26,7 +26,7 @@ public class CreateContestRecordBizHandler
             throw new RuntimeException("比赛不存在");
         }
         // 获取用户
-        User user = userService.getByQQId(request.getUserId());
+        User user = userService.queryByQQId(request.getUserId());
 
 
         // 检查是否是创建者所在的比赛

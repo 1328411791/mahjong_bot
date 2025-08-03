@@ -8,7 +8,8 @@
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="qqId" column="qq_id" jdbcType="BIGINT"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-        <result property="extInfo" column="ext_info" jdbcType="VARCHAR"/>
+        <result property="extInfo" column="ext_info" jdbcType="VARCHAR"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>

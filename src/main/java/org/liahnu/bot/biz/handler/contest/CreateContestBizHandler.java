@@ -17,7 +17,7 @@ public class CreateContestBizHandler
     public CreateContestBizServiceResult handle(CreateContestBizServiceRequest request) {
 
         // 获取用户
-        User user = super.userService.getByQQId(request.getUserId());
+        User user = super.userService.queryByQQId(request.getUserId());
 
         // 创建比赛
         Contest contest = new Contest();
