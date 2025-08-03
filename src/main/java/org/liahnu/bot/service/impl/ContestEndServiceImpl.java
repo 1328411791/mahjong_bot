@@ -84,7 +84,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
         contest.setStatus(ContestStatus.END);
         contestService.updateById(contest);
 
-        Map<Long, Pair<BigDecimal,BigDecimal>> calculateElo = calculateElo(contestId, contest.getType());
+        Map<Integer, Pair<BigDecimal, BigDecimal>> calculateElo = calculateElo(contestId, contest.getType());
 
         // 更新elo变化记录
         updateChangeElo(calculateElo,contest.getId());
@@ -127,7 +127,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
         bot.sendGroupMsg(contest.getCreateGroupId(), msg.build(), false);
     }
 
-    private void updateChangeElo(Map<Long, Pair<BigDecimal, BigDecimal>> calculateElo, Integer contestID) {
+    private void updateChangeElo(Map<Integer, Pair<BigDecimal, BigDecimal>> calculateElo, Integer contestID) {
         calculateElo.forEach((userId, pair) ->{
             ContestEnd contestEnd = this.query().eq("contest_id",contestID).eq("user_id",userId).one();
             contestEnd.setEloChange(pair.getValue().subtract(pair.getKey()));
@@ -141,18 +141,18 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
     * @param contestType 比赛类型
     * @return Map<Long, Pair<BigDecimal,BigDecimal>> 用户 ID 与 Elo 变化值的映射
      */
-    public Map<Long, Pair<BigDecimal,BigDecimal>> calculateElo(Integer contestId, ContestType contestType) {
+    public Map<Integer, Pair<BigDecimal, BigDecimal>> calculateElo(Integer contestId, ContestType contestType) {
         List<ContestEnd> contestEndList = this.list(new QueryWrapper<ContestEnd>().eq("contest_id",contestId));
 
         EloCalculateContext context = new EloCalculateContext();
 
-        Map<Long,BigDecimal> score = new HashMap<>();
+        Map<Integer, BigDecimal> score = new HashMap<>();
         contestEndList.forEach((contestEnd -> {
             score.put(contestEnd.getUserId(),contestEnd.getEndPoint());
         }));
         context.setScores(score);
 
-        Map<Long,BigDecimal> originalElo = new HashMap<>();
+        Map<Integer, BigDecimal> originalElo = new HashMap<>();
         for(ContestEnd contestEnd:contestEndList){
             BigDecimal elo = eloService.getElo(contestEnd.getUserId(), contestType);
             originalElo.put(contestEnd.getUserId(),elo);
@@ -160,12 +160,12 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
 
         context.setOriginalElo(originalElo);
 
-        Map<Long,BigDecimal> eloChange = EloCalculate.calculate(contestType, context);
+        Map<Integer, BigDecimal> eloChange = EloCalculate.calculate(contestType, context);
 
         List<Elo> changeElo = eloService.updateElo(eloChange, contestType);
 
         // 将originalElo 和 changeElo 合并map输出
-        Map<Long, Pair<BigDecimal,BigDecimal>> ret = new HashMap<>();
+        Map<Integer, Pair<BigDecimal, BigDecimal>> ret = new HashMap<>();
         for (Elo elo : changeElo){
             ret.put(elo.getUserId(), Pair.of(originalElo.get(elo.getUserId()),elo.getElo()));
         }

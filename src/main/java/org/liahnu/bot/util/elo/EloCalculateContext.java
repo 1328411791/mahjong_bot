@@ -1,7 +1,6 @@
 package org.liahnu.bot.util.elo;
 
 import lombok.Data;
-import org.liahnu.bot.model.type.DirectionType;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -14,10 +13,10 @@ import java.util.Map;
 public class EloCalculateContext {
 
     // 原始elo积分
-    private Map<Long, BigDecimal> originalElo;
+    private Map<Integer, BigDecimal> originalElo;
 
     // 本场精算点
-    private Map<Long, BigDecimal> scores;
+    private Map<Integer, BigDecimal> scores;
 
 
 
