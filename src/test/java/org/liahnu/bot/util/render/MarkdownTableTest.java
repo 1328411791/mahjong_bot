@@ -29,7 +29,7 @@ class MarkdownTableTest {
 
         log.info(build);
         assertEquals("""
-                | 姓名 | 年龄 | 性别 |
+                | **姓名** | **年龄** | **性别** |
                 | ---- | ---- | ---- |
                 | 张三 | 18 | 男 |
                 | 李四 | 20 | 女 |
