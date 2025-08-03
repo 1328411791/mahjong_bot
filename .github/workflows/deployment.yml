@@ -11,6 +11,10 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
+      # 1️⃣ 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       # 配置 SSH
       - name: Set up SSH
         uses: appleboy/ssh-action@v1.2.2
