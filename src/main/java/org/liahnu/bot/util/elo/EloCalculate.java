@@ -26,7 +26,10 @@ public class EloCalculate {
             clazz = type.getParent().getEloCalculateServiceClass();
         }
 
-        EloCalculateService calculator = RULE_MAP.get(clazz.getName());
+        EloCalculateService calculator = null;
+        if (clazz != null) {
+            calculator = RULE_MAP.get(clazz.getName());
+        }
         if (calculator == null) {
             throw new IllegalArgumentException("不支持的规则: " + clazz.getName());
         }

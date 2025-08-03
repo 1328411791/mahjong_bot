@@ -16,19 +16,19 @@ import java.util.Date;
 @Data
 public class ContestEnd implements Serializable {
     /**
-     * 
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 比赛id
      */
     @TableField(value = "contest_id")
     private Integer contestId;
 
     /**
-     * 
+     * 用户id
      */
     @TableField(value = "user_id")
     private Integer userId;
@@ -44,13 +44,13 @@ public class ContestEnd implements Serializable {
     private BigDecimal eloChange;
 
     /**
-     * 
+     * 创建时间
      */
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
-     * 
+     * 更新时间
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;

@@ -16,13 +16,13 @@ import java.util.Date;
 @Data
 public class ContestRecord implements Serializable {
     /**
-     * 
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 比赛id
      */
     @TableField(value = "contest_id")
     private Integer contestId;
@@ -46,13 +46,13 @@ public class ContestRecord implements Serializable {
     private Integer point;
 
     /**
-     * 
+     * 比赛id
      */
     @TableField(value = "create_time",fill =  FieldFill.INSERT)
     private Date createTime;
 
     /**
-     * 
+     * 更新时间
      */
     @TableField(value = "update_time",fill =  FieldFill.INSERT_UPDATE)
     private Date updateTime;

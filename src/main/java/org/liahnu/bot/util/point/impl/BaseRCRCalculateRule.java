@@ -4,6 +4,7 @@ import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.util.point.CalculateService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class BaseRCRCalculateRule implements CalculateService {
@@ -58,7 +59,7 @@ public class BaseRCRCalculateRule implements CalculateService {
             Integer score = entry.getValue();
 
             // 计算PT值
-            BigDecimal ptValue = new BigDecimal(score-25000).divide(new BigDecimal(1000));
+            BigDecimal ptValue = new BigDecimal(score - 25000).divide(new BigDecimal(1000), 2, RoundingMode.HALF_UP);
 
             BigDecimal finalScore = ptValue.add(BigDecimal.valueOf(maPoints[i]));
 
