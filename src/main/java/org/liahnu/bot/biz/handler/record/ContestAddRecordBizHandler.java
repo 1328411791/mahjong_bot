@@ -17,6 +17,7 @@ import org.liahnu.bot.model.type.ContestStatus;
 public class ContestAddRecordBizHandler
         extends AbstractBizServiceHandler<AddContestRecordBizServiceRequest, AddContestRecordBizServiceResult> {
 
+
     @Override
     public AddContestRecordBizServiceResult handle(AddContestRecordBizServiceRequest request) {
 
