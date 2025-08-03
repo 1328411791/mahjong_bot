@@ -72,9 +72,9 @@ public class MarkdownRender {
         @Override
         public void setAttributes(Node node, String tagName, Map<String, String> attributes) {
             if ("table".equals(tagName)) {
-                attributes.put("style", "border-collapse: collapse;");
+                attributes.put("style", "border-collapse: collapse; border-spacing: 0;");
             } else if ("th".equals(tagName) || "td".equals(tagName)) {
-                attributes.put("style", "border: 1px solid #000; padding: 8px;");
+                attributes.put("style", "border: 1px solid #000; padding: 8px; margin: 0;");
             }
         }
     }
