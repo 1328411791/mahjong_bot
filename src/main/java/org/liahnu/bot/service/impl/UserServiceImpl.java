@@ -7,19 +7,25 @@ import org.liahnu.bot.model.domain.User;
 import org.liahnu.bot.service.UserService;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author lihanyu
+ * @description 针对表【user】的数据库操作Service实现
+ * @createDate 2025-08-03 19:56:33
+ */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>
+        implements UserService{
 
     @Override
-    public User getByQQId(Long qqId) {
+    public User queryByQQId(Long qqId) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getQQId, qqId);
+        queryWrapper.eq(User::getQqId, qqId);
         User one = this.getOne(queryWrapper);
 
         if (one == null) {
             one = new User();
-            one.setQQId(qqId);
-            one.setNickname(qqId.toString());
+            one.setQqId(qqId);
+            one.setNickName("qq用户" + qqId.toString());
             this.save(one);
         }
 
@@ -27,3 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
 }
+
+
+
+
