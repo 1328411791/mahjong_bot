@@ -26,13 +26,14 @@ class MarkdownRenderTest {
 
     @Test
     void renderMarkdownWithTablesImage() {
-        String markdown = """
-                | 姓名 | 年龄 | 性别 |
-                | --- | --- | --- |
-                | 张三 | 18 | 男 |
-                | 李四 | 20 | 女 |
-                | 王五 | 22 | 男 |
-                """;
+        String markdown =
+                """
+                        | **姓名** | **年龄** | **性别** |
+                        | ---- | ---- | ---- |
+                        | 张三 | 18 | 男 |
+                        | 李四 | 20 | 女 |
+                        | 王五 | 22 | 男 |
+                        """;
         String image = MarkdownRender.renderMarkdownWithImage(markdown);
         // 如果在本地测试运行
 //        File file = new File("./img.png");
