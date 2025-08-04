@@ -2,6 +2,7 @@ package org.liahnu.bot.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.liahnu.bot.model.domain.ContestRecord;
+import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface ContestRecordService extends IService<ContestRecord> {
     void calculateScore(Integer contestId);
 
     List<UserRecordVO> getRecentRecord(Long userId, int i);
+
+    ContestRecord queryRecordByCUD(Integer contestId, Integer userId, DirectionType direction);
+
 }

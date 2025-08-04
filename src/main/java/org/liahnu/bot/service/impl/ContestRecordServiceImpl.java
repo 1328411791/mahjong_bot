@@ -1,10 +1,12 @@
 package org.liahnu.bot.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.liahnu.bot.mapper.ContestRecordMapper;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestRecord;
+import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.model.vo.UserRecordVO;
 import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestRecordService;
@@ -44,9 +46,6 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
 
     }
 
-
-
-
     private boolean checkThreshold(Integer contestId) {
         // 获取当前记录的记录数量
         Integer recordCount = mapper.getContestRecordCount(contestId);
@@ -66,7 +65,14 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
         return userRecord;
     }
 
-
+    @Override
+    public ContestRecord queryRecordByCUD(Integer contestId, Integer userId, DirectionType direction) {
+        LambdaQueryWrapper<ContestRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContestRecord::getContestId, contestId);
+        wrapper.eq(ContestRecord::getRecordUserId, userId);
+        wrapper.eq(ContestRecord::getDirection, direction);
+        return this.getOne(wrapper);
+    }
 }
 
 

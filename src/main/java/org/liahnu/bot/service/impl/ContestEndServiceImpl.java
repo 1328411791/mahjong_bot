@@ -16,6 +16,7 @@ import org.liahnu.bot.model.type.DirectionType;
 import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
+import org.liahnu.bot.service.UserService;
 import org.liahnu.bot.util.SignSendMessageComponent;
 import org.liahnu.bot.util.elo.EloCalculate;
 import org.liahnu.bot.util.elo.EloCalculateContext;
@@ -48,6 +49,9 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
 
     @Autowired
     private EloService eloService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
@@ -114,7 +118,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
                 }
             }
 
-            msg.text("👤 用户 ID: ").at(userId).text("\n");
+            msg.text("👤 用户 ID: ").at(userService.getById(userId).getQqId()).text("\n");
             msg.text("📈 点数情况").text((contestRecord.getPoint().compareTo(0) >= 0 ? "+" : "")+contestRecord.getPoint()).text("\n");
             msg.text("📈 ELO: ").text(oldElo.toString()).text(" → ").text(newElo.toString())
                     .text(" (").text(sign).text(change.toPlainString()).text(")\n");

@@ -8,8 +8,13 @@ public enum BizFailCodeEnum {
     // 参数异常
     PARAM_FAIL(1001, "参数异常"),
 
-    ;
 
+    /* 对局记录相关 */
+
+    // 记录已存在
+    CONTEST_RECORD_EXIST(1100, "该记录已存在"),
+
+    ;
 
     final Integer code;
 
