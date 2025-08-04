@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.liahnu.bot.biz.BizServiceException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -27,6 +28,7 @@ import java.util.Map;
 @Slf4j
 @Aspect
 @Component
+@ExceptionHandler
 public class ShiroExceptionInterceptor {
 
     @Pointcut("@annotation(com.mikuac.shiro.annotation.MessageHandlerFilter)")  // 修正注解名称
