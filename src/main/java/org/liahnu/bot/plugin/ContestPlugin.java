@@ -1,7 +1,5 @@
 package org.liahnu.bot.plugin;
 
-import cn.hutool.poi.word.TableUtil;
-import com.mikuac.shiro.annotation.AnyMessageHandler;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
@@ -9,7 +7,6 @@ import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.liahnu.bot.biz.BizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
@@ -77,8 +74,8 @@ public class ContestPlugin {
         }
 
         MsgUtils builder = MsgUtils.builder();
-         builder.reply(event.getMessageId());
-         builder.text(" | 字段       | 内容           |\n");
+        builder.reply(event.getMessageId());
+        builder.text(" | 字段       | 内容           |\n");
         builder.text("|------------|----------------|\n");
            for (Contest contest : contests) {
                builder.text("| 比赛ID     | " + contest.getId() + " |\n");
