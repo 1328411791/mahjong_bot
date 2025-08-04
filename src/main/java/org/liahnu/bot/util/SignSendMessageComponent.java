@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * @author lihanyu
+ */
 @Component
 public class SignSendMessageComponent {
 
