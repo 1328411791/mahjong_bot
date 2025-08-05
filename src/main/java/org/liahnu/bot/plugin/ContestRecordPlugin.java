@@ -1,5 +1,6 @@
 package org.liahnu.bot.plugin;
 
+import cn.hutool.core.lang.Assert;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.PrivateMessageHandler;
@@ -10,8 +11,11 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.liahnu.bot.biz.BizServiceException;
 import org.liahnu.bot.biz.PluginBizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
+import org.liahnu.bot.biz.base.PluginHandlerHelper;
+import org.liahnu.bot.biz.base.ServiceCallback;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Elo;
@@ -55,18 +59,38 @@ public class ContestRecordPlugin {
         String direction = matcher.group("direction");
         String scoreStr = matcher.group("score");
 
-        Integer contestId = Integer.valueOf(contestIdStr);
-        Integer score = Integer.valueOf(scoreStr);
-
         // 调用 service 添加记录逻辑
         AddContestRecordBizServiceRequest request = new AddContestRecordBizServiceRequest();
-        request.setContestId(contestId);
+        request.setContestId(Integer.valueOf(contestIdStr));
         request.setDirection(DirectionType.getDirectionType(direction));
-        request.setScore(score);
+        request.setScore(Integer.valueOf(scoreStr));
         request.setUserId(event.getUserId());
         request.setGroupId(event.getGroupId());
 
-        AddContestRecordBizServiceResult result = pluginBizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD);
+        AddContestRecordBizServiceResult result = pluginBizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD
+                , new ServiceCallback<AddContestRecordBizServiceRequest, AddContestRecordBizServiceResult>() {
+                    @Override
+                    public boolean checkRequest(AddContestRecordBizServiceRequest request) {
+                        Assert.notNull(request.getContestId(), "contestId不能为空");
+                        Assert.notNull(request.getDirection(), "direction不能为空");
+                        Assert.notNull(request.getScore(), "score不能为空");
+                        Assert.notNull(request.getUserId(), "userId不能为空");
+                        Assert.notNull(request.getGroupId(), "groupId不能为空");
+                        return true;
+                    }
+
+                    @Override
+                    public AddContestRecordBizServiceResult doExecute(AddContestRecordBizServiceRequest request) {
+                        return PluginHandlerHelper.doHandler(BizServiceTypeEnum.ADD_RECORD, request);
+                    }
+
+                    @Override
+                    public void doFail(AddContestRecordBizServiceRequest request, BizServiceException e) {
+                        MsgUtils builder = MsgUtils.builder();
+                        builder.text("添加记录失败：" + e.getMessage());
+                        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
+                    }
+                });
 
         MsgUtils builder = MsgUtils.builder();
         builder.reply(event.getMessageId());

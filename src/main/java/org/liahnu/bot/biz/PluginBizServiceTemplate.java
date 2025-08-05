@@ -1,9 +1,6 @@
 package org.liahnu.bot.biz;
 
-import org.liahnu.bot.biz.base.BizServiceBaseRequest;
-import org.liahnu.bot.biz.base.BizServiceBaseResult;
-import org.liahnu.bot.biz.base.BizServiceTypeEnum;
-import org.liahnu.bot.biz.base.ServiceCallback;
+import org.liahnu.bot.biz.base.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,7 +23,7 @@ public class PluginBizServiceTemplate {
         execute(T request, BizServiceTypeEnum typeEnum) {
         return execute(request,
                 typeEnum,
-                call -> doHandler(typeEnum, request)
+                call -> PluginHandlerHelper.doHandler(typeEnum, request)
         );
     }
 
@@ -40,32 +37,23 @@ public class PluginBizServiceTemplate {
         execute(T request, BizServiceTypeEnum typeEnum, ServiceCallback<T, R> callback) {
 
         log.info("[PluginBizServiceTemplate] execute task type {}，request:{}", typeEnum, request);
-
+        try {
         callback.preHandle();
 
         if (!callback.checkRequest(request)) {
             log.info("[PluginBizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
             throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
         }
-        R result = null;
-        try {
-            result = callback.doExecute(request);
+            R result = callback.doExecute(request);
+
+            log.info("[PluginBizServiceTemplate] success, result:{}", result);
+
+            return result;
 
         }catch (BizServiceException e) {
             log.error("[PluginBizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
             callback.doFail(request, e);
         }
-
-        log.info("[PluginBizServiceTemplate] success, result:{}", result);
-
-        return result;
+        return null;
     }
-
-    private <R extends BizServiceBaseResult> R doHandler(BizServiceTypeEnum typeEnum, BizServiceBaseRequest request) {
-        @SuppressWarnings("unchecked")
-        R result = (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request);
-        return result;
-    }
-
-
 }

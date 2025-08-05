@@ -31,6 +31,4 @@ public interface ServiceCallback
     default void doFail(T request, BizServiceException e) {
 
     }
-
-
 }
