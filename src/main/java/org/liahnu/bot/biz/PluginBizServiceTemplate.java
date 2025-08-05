@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class BizServiceTemplate {
+public class PluginBizServiceTemplate {
 
-    Logger log = LoggerFactory.getLogger(BizServiceTemplate.class);
+    Logger log = LoggerFactory.getLogger(PluginBizServiceTemplate.class);
 
 
 
@@ -43,23 +43,23 @@ public class BizServiceTemplate {
     public <T extends BizServiceBaseRequest, R extends BizServiceBaseResult> R
         execute(T request, BizServiceTypeEnum typeEnum, ServiceCallback<T, R> callback) {
 
-        log.info("[BizServiceTemplate] execute task type {}，request:{}", typeEnum, request);
+        log.info("[PluginBizServiceTemplate] execute task type {}，request:{}", typeEnum, request);
 
         callback.preHandle();
 
         if (!callback.checkRequest(request)) {
-            log.info("[BizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
+            log.info("[PluginBizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
             throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
         }
         R result;
         try {
             result = callback.doExecute(request);
         }catch (BizServiceException e) {
-            log.error("[BizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
+            log.error("[PluginBizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
             throw e;
         }
 
-        log.info("[BizServiceTemplate] success, result:{}", result);
+        log.info("[PluginBizServiceTemplate] success, result:{}", result);
 
         return result;
     }

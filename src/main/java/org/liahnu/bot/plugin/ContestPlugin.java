@@ -1,7 +1,5 @@
 package org.liahnu.bot.plugin;
 
-import cn.hutool.poi.word.TableUtil;
-import com.mikuac.shiro.annotation.AnyMessageHandler;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
@@ -9,9 +7,8 @@ import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.liahnu.bot.biz.BizServiceTemplate;
+import org.liahnu.bot.biz.PluginBizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
 import org.liahnu.bot.biz.request.contest.CreateContestBizServiceRequest;
 import org.liahnu.bot.biz.result.contest.CreateContestBizServiceResult;
@@ -33,7 +30,7 @@ public class ContestPlugin {
     private ContestService contestService;
 
     @Autowired
-    private BizServiceTemplate bizServiceTemplate;
+    private PluginBizServiceTemplate pluginBizServiceTemplate;
 
     /*
      * 创建比赛
@@ -48,7 +45,7 @@ public class ContestPlugin {
         request.setGroupId(event.getGroupId());
         request.setUserId(event.getUserId());
         request.setContestType(type);
-        CreateContestBizServiceResult result = bizServiceTemplate.execute(request,BizServiceTypeEnum.CREATE_CONTEST);
+        CreateContestBizServiceResult result = pluginBizServiceTemplate.execute(request, BizServiceTypeEnum.CREATE_CONTEST);
 
         // 展示 创建成功，输出比赛 信息
         MsgUtils builder = MsgUtils.builder();

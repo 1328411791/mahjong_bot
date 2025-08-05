@@ -10,7 +10,7 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.liahnu.bot.biz.BizServiceTemplate;
+import org.liahnu.bot.biz.PluginBizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
@@ -39,7 +39,7 @@ public class ContestRecordPlugin {
     private EloService eloService;
 
     @Autowired
-    private BizServiceTemplate bizServiceTemplate;
+    private PluginBizServiceTemplate pluginBizServiceTemplate;
 
     @Autowired
     private UserService userService;
@@ -66,7 +66,7 @@ public class ContestRecordPlugin {
         request.setUserId(event.getUserId());
         request.setGroupId(event.getGroupId());
 
-        AddContestRecordBizServiceResult result = bizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD);
+        AddContestRecordBizServiceResult result = pluginBizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD);
 
         MsgUtils builder = MsgUtils.builder();
         builder.reply(event.getMessageId());
