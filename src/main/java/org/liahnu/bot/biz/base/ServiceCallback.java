@@ -1,5 +1,9 @@
 package org.liahnu.bot.biz.base;
 
+import lombok.extern.slf4j.Slf4j;
+import org.liahnu.bot.biz.BizServiceException;
+
+@Slf4j
 public interface ServiceCallback
         <T extends BizServiceBaseRequest, R extends BizServiceBaseResult> {
 
@@ -22,6 +26,10 @@ public interface ServiceCallback
      */
     default boolean checkRequest(T request) {
        return true;
+    }
+
+    default void doFail(T request, BizServiceException e) {
+
     }
 
 

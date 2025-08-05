@@ -17,6 +17,7 @@ public class PluginBizServiceTemplate {
 
 
     /*
+     * 适合无特殊callback的调用情况
      * @param request 请求参数
      * @param taskTypeEnum 任务类型
      * @return 返回结果
@@ -25,12 +26,7 @@ public class PluginBizServiceTemplate {
         execute(T request, BizServiceTypeEnum typeEnum) {
         return execute(request,
                 typeEnum,
-
-                call -> {
-                    @SuppressWarnings("unchecked")
-                    R result = (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request);
-                    return result;
-                }
+                call -> doHandler(typeEnum, request)
         );
     }
 
@@ -51,16 +47,23 @@ public class PluginBizServiceTemplate {
             log.info("[PluginBizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
             throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
         }
-        R result;
+        R result = null;
         try {
             result = callback.doExecute(request);
+
         }catch (BizServiceException e) {
             log.error("[PluginBizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
-            throw e;
+            callback.doFail(request, e);
         }
 
         log.info("[PluginBizServiceTemplate] success, result:{}", result);
 
+        return result;
+    }
+
+    private <R extends BizServiceBaseResult> R doHandler(BizServiceTypeEnum typeEnum, BizServiceBaseRequest request) {
+        @SuppressWarnings("unchecked")
+        R result = (R) BizServiceHandlerFactory.getHandler(typeEnum).handle(request);
         return result;
     }
 
