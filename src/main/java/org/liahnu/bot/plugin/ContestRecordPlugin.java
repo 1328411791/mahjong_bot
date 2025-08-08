@@ -1,5 +1,6 @@
 package org.liahnu.bot.plugin;
 
+import cn.hutool.core.lang.Assert;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.PrivateMessageHandler;
@@ -10,8 +11,10 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.liahnu.bot.biz.BizServiceTemplate;
+import org.liahnu.bot.biz.BizServiceException;
+import org.liahnu.bot.biz.PluginBizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
+import org.liahnu.bot.biz.base.ServiceCallback;
 import org.liahnu.bot.biz.request.record.AddContestRecordBizServiceRequest;
 import org.liahnu.bot.biz.result.record.AddContestRecordBizServiceResult;
 import org.liahnu.bot.model.domain.Elo;
@@ -22,6 +25,7 @@ import org.liahnu.bot.service.ContestRecordService;
 import org.liahnu.bot.service.EloService;
 import org.liahnu.bot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -39,10 +43,12 @@ public class ContestRecordPlugin {
     private EloService eloService;
 
     @Autowired
-    private BizServiceTemplate bizServiceTemplate;
+    private PluginBizServiceTemplate pluginBizServiceTemplate;
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PropertyResolver propertyResolver;
 
     /*
      * 添加记录
@@ -50,34 +56,57 @@ public class ContestRecordPlugin {
     @GroupMessageHandler
     @MessageHandlerFilter(at = AtEnum.NEED, cmd = "添加记录 (?<contestId>\\d+) (?<direction>\\S+) (?<score>-?\\d+)")
     public void addRecord(Bot bot, GroupMessageEvent event, Matcher matcher) {
-        // 使用命名组提取参数
-        String contestIdStr = matcher.group("contestId");
-        String direction = matcher.group("direction");
-        String scoreStr = matcher.group("score");
+        pluginBizServiceTemplate.execute(BizServiceTypeEnum.ADD_RECORD
+                , new ServiceCallback<AddContestRecordBizServiceRequest, AddContestRecordBizServiceResult>() {
 
-        Integer contestId = Integer.valueOf(contestIdStr);
-        Integer score = Integer.valueOf(scoreStr);
+                    @Override
+                    public AddContestRecordBizServiceRequest buildRequest() {
+                        // 使用命名组提取参数
+                        String contestIdStr = matcher.group("contestId");
+                        String direction = matcher.group("direction");
+                        String scoreStr = matcher.group("score");
 
-        // 调用 service 添加记录逻辑
-        AddContestRecordBizServiceRequest request = new AddContestRecordBizServiceRequest();
-        request.setContestId(contestId);
-        request.setDirection(DirectionType.getDirectionType(direction));
-        request.setScore(score);
-        request.setUserId(event.getUserId());
-        request.setGroupId(event.getGroupId());
+                        // 调用 service 添加记录逻辑
+                        AddContestRecordBizServiceRequest request = new AddContestRecordBizServiceRequest();
+                        request.setContestId(Integer.valueOf(contestIdStr));
+                        request.setDirection(DirectionType.getDirectionType(direction));
+                        request.setScore(Integer.valueOf(scoreStr));
+                        request.setUserId(event.getUserId());
+                        request.setGroupId(event.getGroupId());
+                        return request;
+                    }
 
-        AddContestRecordBizServiceResult result = bizServiceTemplate.execute(request, BizServiceTypeEnum.ADD_RECORD);
+                    @Override
+                    public void preHandle(AddContestRecordBizServiceRequest request) {
+                        Assert.notNull(request.getContestId(), "contestId不能为空");
+                        Assert.notNull(request.getDirection(), "direction不能为空");
+                        Assert.notNull(request.getScore(), "score不能为空");
+                        Assert.notNull(request.getUserId(), "userId不能为空");
+                        Assert.notNull(request.getGroupId(), "groupId不能为空");
+                    }
 
-        MsgUtils builder = MsgUtils.builder();
-        builder.reply(event.getMessageId());
-        builder.text("✅ 已成功添加记录：\n");
-        builder.text("| 字段       | 内容           |\n");
-        builder.text("|------------|----------------|\n");
-        builder.text("| 比赛ID     | " + result.getRecord().getContestId() + " |\n");
-        builder.text("| 记录ID     | " + result.getRecord().getId() + " |\n");
-        builder.text("| 方向       | " +  result.getRecord().getDirection().getDirection() + " |\n");
-        builder.text("| 分数       | " +  result.getRecord().getPoint() + " |\n");
-        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
+                    @Override
+                    public void fail(AddContestRecordBizServiceRequest request, BizServiceException e) {
+                        MsgUtils builder = MsgUtils.builder();
+                        builder.text("添加记录失败：" + e.getMessage());
+                        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
+                    }
+
+                    @Override
+                    public void success(AddContestRecordBizServiceResult result) {
+                        MsgUtils builder = MsgUtils.builder();
+                        builder.reply(event.getMessageId());
+                        builder.text("✅ 已成功添加记录：\n");
+                        builder.text("| 字段       | 内容           |\n");
+                        builder.text("|------------|----------------|\n");
+                        builder.text("| 比赛ID     | " + result.getRecord().getContestId() + " |\n");
+                        builder.text("| 记录ID     | " + result.getRecord().getId() + " |\n");
+                        builder.text("| 方向       | " + result.getRecord().getDirection().getDirection() + " |\n");
+                        builder.text("| 分数       | " + result.getRecord().getPoint() + " |\n");
+
+                        bot.sendGroupMsg(event.getGroupId(), builder.build(), false);
+                    }
+                });
     }
 
     @PrivateMessageHandler

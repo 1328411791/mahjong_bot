@@ -8,6 +8,8 @@ public enum BizFailCodeEnum {
     // 参数异常
     PARAM_FAIL(1001, "参数异常"),
 
+    // 系统异常
+    SYS_ERROR(1002, "系统异常"),
 
     /* 对局记录相关 */
 

@@ -61,8 +61,7 @@ public class ContestRecordServiceImpl extends ServiceImpl<ContestRecordMapper, C
 
     @Override
     public List<UserRecordVO> getRecentRecord(Long userId, int i) {
-        List<UserRecordVO> userRecord = mapper.getUserRecord(userId, i);
-        return userRecord;
+        return mapper.getUserRecord(userId, i);
     }
 
     @Override

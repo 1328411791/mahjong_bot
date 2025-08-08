@@ -17,37 +17,37 @@ import java.util.Date;
 @Data
 public class Elo implements Serializable {
     /**
-     * 
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 用户id
      */
     @TableField(value = "user_id")
     private Integer userId;
 
     /**
-     * 
+     * 类型
      */
     @TableField(value = "type")
     private ContestType type;
 
     /**
-     * 
+     * elo
      */
     @TableField(value = "elo")
     private BigDecimal elo;
 
     /**
-     * 
+     * 更新时间
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     /**
-     * 
+     * 创建时间
      */
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private Date createTime;
