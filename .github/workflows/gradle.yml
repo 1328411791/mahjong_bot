@@ -63,4 +63,9 @@ jobs:
     uses: ./.github/workflows/deployment.yml
     with:
       version: ${{ needs.build-deploy.outputs.version }}
+    secrets:
+      SSH_SERVER_IP: ${{ secrets.SSH_SERVER_IP }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
 
