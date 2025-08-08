@@ -77,13 +77,12 @@ public class ContestRecordPlugin {
                     }
 
                     @Override
-                    public boolean preHandle(AddContestRecordBizServiceRequest request) {
+                    public void preHandle(AddContestRecordBizServiceRequest request) {
                         Assert.notNull(request.getContestId(), "contestId不能为空");
                         Assert.notNull(request.getDirection(), "direction不能为空");
                         Assert.notNull(request.getScore(), "score不能为空");
                         Assert.notNull(request.getUserId(), "userId不能为空");
                         Assert.notNull(request.getGroupId(), "groupId不能为空");
-                        return true;
                     }
 
                     @Override

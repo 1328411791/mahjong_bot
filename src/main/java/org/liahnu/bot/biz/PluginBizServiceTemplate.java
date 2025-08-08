@@ -29,10 +29,13 @@ public class PluginBizServiceTemplate {
 
             log.info("[PluginBizServiceTemplate] execute task type {}，request:{}", typeEnum, request);
 
-            if (!callback.preHandle(request)) {
-            log.info("[PluginBizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
-            throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, "参数异常");
-        }
+            // 校验参数
+            try {
+                callback.preHandle(request);
+            } catch (IllegalArgumentException e) {
+                log.info("[PluginBizServiceTemplate] check request failed, request:{}, type:{}", request, typeEnum);
+                throw new BizServiceException(BizFailCodeEnum.PARAM_FAIL, e.getMessage());
+            }
             // 执行
             R result = callback.doExecute(BizServiceHandlerFactory.getHandler(typeEnum), request);
 
@@ -43,6 +46,11 @@ public class PluginBizServiceTemplate {
         }catch (BizServiceException e) {
             log.error("[PluginBizServiceTemplate] execute failed, request:{}, type:{}, error:{}", request, typeEnum, e.toString());
             callback.fail(request, e);
+        }
+        // 兜底异常处理
+        catch (Exception e) {
+            log.error("[PluginBizServiceTemplate] execute failed, request:{}", request);
+            callback.fail(request, new BizServiceException(BizFailCodeEnum.SYS_ERROR, e.getMessage()));
         }
     }
 }

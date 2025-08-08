@@ -10,8 +10,7 @@ public interface ServiceCallback
      * 预处理
      * @return 是否校验通过 true:通过 false:不通过
      */
-    default boolean preHandle(T request) {
-        return true;
+    default void preHandle(T request) {
     }
 
     /*

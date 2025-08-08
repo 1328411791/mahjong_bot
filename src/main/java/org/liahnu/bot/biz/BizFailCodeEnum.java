@@ -8,8 +8,8 @@ public enum BizFailCodeEnum {
     // 参数异常
     PARAM_FAIL(1001, "参数异常"),
 
+    SYS_ERROR(1002, "系统异常"),
     ;
-
 
     final Integer code;
 
