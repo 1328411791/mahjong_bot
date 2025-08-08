@@ -4,7 +4,6 @@ on:
   pull_request:
   push:
     branches: # Specify your branches here
-      - master # The 'main' branch
       - 'releases/*' # The release branches
 
 jobs:

@@ -91,8 +91,8 @@ public class ContestPlugin {
         }
 
         MsgUtils builder = MsgUtils.builder();
-         builder.reply(event.getMessageId());
-         builder.text(" | 字段       | 内容           |\n");
+        builder.reply(event.getMessageId());
+        builder.text(" | 字段       | 内容           |\n");
         builder.text("|------------|----------------|\n");
            for (Contest contest : contests) {
                builder.text("| 比赛ID     | " + contest.getId() + " |\n");

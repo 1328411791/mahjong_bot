@@ -1,7 +1,6 @@
 package org.liahnu.bot.plugin;
 
 import com.mikuac.shiro.annotation.AnyMessageHandler;
-import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
 import com.mikuac.shiro.common.utils.MsgUtils;
@@ -29,11 +28,11 @@ public class HelpPlugin {
                 .img(img)
                 .text("欢迎使用Mahjong Bot，请输入以下命令：\n")
                 .text("- help：显示帮助信息\n")
-                .text("私聊功能: \n")
+                .text("群聊功能: \n")
                 .text("- 添加记录 <contestId> <direction> <score>：记录比赛成绩\n")
                 .text("- 查询比赛：获取比赛列表\n")
                 .text("- 创建比赛 [参数]：创建一个新的比赛\n")
-                .text("- [参数]: RCR 立直麻将比赛（默认雀魂规）/MCR 国标麻将/M M规")
+                .text("- [参数]: RCR 立直麻将比赛（默认雀魂规）/MCR 国标麻将/M M规 \n")
                 .text("私聊功能: \n")
                 .text("- 查询记录：查看历史比赛记录\n");
 
