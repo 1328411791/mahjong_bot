@@ -4,6 +4,10 @@ package org.liahnu.bot.biz.base;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author lihanyu
+ */
+
 @Getter
 @AllArgsConstructor
 public enum BizServiceTypeEnum {
@@ -14,7 +18,9 @@ public enum BizServiceTypeEnum {
 
     CREATE_CONTEST_RECORD("create record","创建记录" ),
 
-    ADD_RECORD("add record","添加记录");
+    ADD_RECORD("add record", "添加记录"),
+
+    QUERY_USER_CONTEST_DETAIL("query user contest detail", "查询用户比赛详情");
 
 
 

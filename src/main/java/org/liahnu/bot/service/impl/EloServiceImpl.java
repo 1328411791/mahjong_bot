@@ -62,6 +62,14 @@ public class EloServiceImpl extends ServiceImpl<EloMapper, Elo>
         queryWrapper.eq(Elo::getUserId, userId);
         return this.list(queryWrapper);
     }
+
+    @Override
+    public Elo queryUserEloByType(Integer userId, ContestType type) {
+        LambdaQueryWrapper<Elo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Elo::getUserId, userId);
+        queryWrapper.eq(Elo::getType, type.getParent());
+        return this.getOne(queryWrapper);
+    }
 }
 
 

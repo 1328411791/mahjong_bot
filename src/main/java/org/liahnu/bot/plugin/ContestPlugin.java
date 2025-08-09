@@ -2,10 +2,12 @@ package org.liahnu.bot.plugin;
 
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
+import com.mikuac.shiro.annotation.PrivateMessageHandler;
 import com.mikuac.shiro.annotation.common.Shiro;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
+import com.mikuac.shiro.dto.event.message.PrivateMessageEvent;
 import com.mikuac.shiro.enums.AtEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.liahnu.bot.biz.BizServiceException;
@@ -13,7 +15,9 @@ import org.liahnu.bot.biz.PluginBizServiceTemplate;
 import org.liahnu.bot.biz.base.BizServiceTypeEnum;
 import org.liahnu.bot.biz.base.ServiceCallback;
 import org.liahnu.bot.biz.request.contest.CreateContestBizServiceRequest;
+import org.liahnu.bot.biz.request.contest.QueryUserContestDetailRequest;
 import org.liahnu.bot.biz.result.contest.CreateContestBizServiceResult;
+import org.liahnu.bot.biz.result.contest.QueryUserContestDetailResult;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestType;
 import org.liahnu.bot.service.ContestService;
@@ -100,5 +104,41 @@ public class ContestPlugin {
                builder.text("| 比赛状态   |  " + contest.getStatus() + " |\n");
           }
         bot .sendGroupMsg(event.getGroupId(), builder.build(), false);
+    }
+
+    /*
+     * 查询用户比赛详情
+     */
+    @PrivateMessageHandler
+    @MessageHandlerFilter(at = AtEnum.NEED, cmd = "查询最近")
+    public void queryUserContestDetail(Bot bot, PrivateMessageEvent event, Matcher matcher) {
+        pluginBizServiceTemplate.execute(
+                BizServiceTypeEnum.QUERY_USER_CONTEST_DETAIL, new ServiceCallback<QueryUserContestDetailRequest, QueryUserContestDetailResult>() {
+                    @Override
+                    public QueryUserContestDetailRequest buildRequest() {
+                        QueryUserContestDetailRequest request = new QueryUserContestDetailRequest();
+                        request.setUserQqId(event.getUserId());
+                        request.setContestType(ContestType.RCR);
+                        request.setLimit(10);
+                        return request;
+                    }
+
+                    @Override
+                    public void success(QueryUserContestDetailResult result) {
+                        MsgUtils builder = MsgUtils.builder();
+                        builder.reply(event.getMessageId());
+                        builder.text("查询成功，最近比赛信息如下：\n" + result.getUserLastContest());
+                        builder.text(result.getLastContestElo().getElo().toString());
+
+                        bot.sendPrivateMsg(event.getUserId(), builder.build(), false);
+                    }
+
+                    @Override
+                    public void fail(QueryUserContestDetailRequest request, BizServiceException e) {
+                        bot.sendPrivateMsg(event.getUserId(), "查询失败，原因：" + e.getMessage(), false);
+                    }
+                }
+        );
+
     }
 }

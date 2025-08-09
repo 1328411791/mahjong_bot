@@ -20,4 +20,6 @@ public interface EloService extends IService<Elo> {
     List<Elo> updateElo(Map<Integer, BigDecimal> map, ContestType type);
 
     List<Elo> queryUserElo(Integer userId);
+
+    Elo queryUserEloByType(Integer userId, ContestType type);
 }

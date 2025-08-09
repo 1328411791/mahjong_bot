@@ -8,6 +8,7 @@ import org.liahnu.bot.mapper.ContestMapper;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.type.ContestStatus;
 import org.liahnu.bot.model.type.ContestType;
+import org.liahnu.bot.model.vo.contest.UserLastContestVO;
 import org.liahnu.bot.service.ContestService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,11 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest>
         Assert.isNull(contest, "比赛不存在");
         contest.setStatus(contestStatus);
         return this.updateById(contest);
+    }
+
+    @Override
+    public List<UserLastContestVO> queryUserLastContestDetail(Integer id, ContestType contestType, Integer limit) {
+        return this.baseMapper.selectRecentContest(id, contestType, limit);
     }
 }
 
