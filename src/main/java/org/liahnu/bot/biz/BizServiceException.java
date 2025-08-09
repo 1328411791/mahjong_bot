@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author lihanyu
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor

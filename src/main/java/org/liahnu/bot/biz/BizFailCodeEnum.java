@@ -1,5 +1,9 @@
 package org.liahnu.bot.biz;
 
+/**
+ * @author lihanyu
+ */
+
 public enum BizFailCodeEnum {
 
     // 默认业务异常

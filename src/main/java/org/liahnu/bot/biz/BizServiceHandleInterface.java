@@ -8,12 +8,10 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.*;
 
 
-/*
+/**
  * @author lihanyu
  * @description 标记属于任务处理的Handler类
  */
-
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
