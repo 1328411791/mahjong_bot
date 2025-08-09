@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lihanyu
@@ -20,12 +23,14 @@ public class BotMessageSendComponent {
 
     // 自定义线程池
     @Bean("BotMessageThreadPool")
-    public ThreadPoolTaskScheduler createThreadPoolTaskScheduler() {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(10);
-        scheduler.setThreadNamePrefix("bot-message-send-thread-");
-        scheduler.initialize();
-        return scheduler;
+    public ThreadPoolExecutor createThreadPoolTaskScheduler() {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 10, 60, TimeUnit.SECONDS
+                , new LinkedBlockingQueue<>(1000)
+                , new ThreadPoolExecutor.CallerRunsPolicy()
+        );
+        log.info("[BotMessageSendComponent] 初始化线程池，核心线程数[{}]，最大线程数[{}]，线程keepalive时间[{}]，队列容量[{}]",
+                executor.getCorePoolSize(), executor.getMaximumPoolSize(), executor.getKeepAliveTime(TimeUnit.SECONDS), executor.getQueue().size());
+        return executor;
     }
 
 

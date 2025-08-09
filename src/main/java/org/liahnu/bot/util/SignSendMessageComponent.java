@@ -20,6 +20,10 @@ public class SignSendMessageComponent {
     @Value("${shiro.bots.bot-id}")
     private Long botId;
 
+    /*
+     * 获取机器人
+     * @return 机器人
+     */
     public Bot getBot(){
         Bot bot = botRef.get();
         if (bot == null) {

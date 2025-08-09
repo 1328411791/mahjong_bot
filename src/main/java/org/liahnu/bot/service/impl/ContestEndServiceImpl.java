@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Pair;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuac.shiro.common.utils.MsgUtils;
-import com.mikuac.shiro.core.Bot;
 import org.liahnu.bot.mapper.ContestEndMapper;
 import org.liahnu.bot.model.domain.Contest;
 import org.liahnu.bot.model.domain.ContestEnd;
@@ -17,7 +16,7 @@ import org.liahnu.bot.service.ContestEndService;
 import org.liahnu.bot.service.ContestService;
 import org.liahnu.bot.service.EloService;
 import org.liahnu.bot.service.UserService;
-import org.liahnu.bot.util.SignSendMessageComponent;
+import org.liahnu.bot.util.BotMessageSendComponent;
 import org.liahnu.bot.util.elo.EloCalculate;
 import org.liahnu.bot.util.elo.EloCalculateContext;
 import org.liahnu.bot.util.point.RuleCalculate;
@@ -45,7 +44,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
     private ContestService contestService;
 
     @Autowired
-    private SignSendMessageComponent botContainer;
+    private BotMessageSendComponent botMessageSendComponent;
 
     @Autowired
     private EloService eloService;
@@ -93,9 +92,6 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
         // 更新elo变化记录
         updateChangeElo(calculateElo,contest.getId());
 
-
-        Bot bot = botContainer.getBot();
-
         MsgUtils msg = MsgUtils.builder();
         msg.text("🏆 比赛结束！以下是比赛结果：\n");
         msg.text("------------------------------\n");
@@ -128,7 +124,7 @@ public class ContestEndServiceImpl extends ServiceImpl<ContestEndMapper, Contest
 
 
         // 发送消息到创建比赛的群组
-        bot.sendGroupMsg(contest.getCreateGroupId(), msg.build(), false);
+        botMessageSendComponent.sendGroupMsg(contest.getCreateGroupId(), msg.build(), false);
     }
 
     private void updateChangeElo(Map<Integer, Pair<BigDecimal, BigDecimal>> calculateElo, Integer contestID) {
