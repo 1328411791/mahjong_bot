@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class BizServiceHandlerFactory {
 
-    private static final Map<String, AbstractBizServiceHandler> handlerMap = new HashMap<>();
+    private static final Map<String, AbstractBizServiceHandler> HANDLER_MAP = new HashMap<>();
 
 
     @Autowired
@@ -34,7 +34,7 @@ public class BizServiceHandlerFactory {
                 throw new RuntimeException("{} 没有注解");
             }
 
-            handlerMap.put(annotation.type().getType(), handler);
+            HANDLER_MAP.put(annotation.type().getType(), handler);
         }
     }
 
@@ -42,8 +42,8 @@ public class BizServiceHandlerFactory {
 
         Assert.notNull(type, "type 不能为空");
 
-        Assert.isTrue(handlerMap.containsKey(type.getType()), "没有找到对应的处理器");
+        Assert.isTrue(HANDLER_MAP.containsKey(type.getType()), "没有找到对应的处理器");
 
-        return handlerMap.get(type.getType());
+        return HANDLER_MAP.get(type.getType());
     }
 }
