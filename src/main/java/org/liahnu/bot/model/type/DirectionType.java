@@ -3,6 +3,10 @@ package org.liahnu.bot.model.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author lihanyu
+ */
+
 @Getter
 @AllArgsConstructor
 public enum DirectionType {
@@ -32,7 +36,7 @@ public enum DirectionType {
 
     public static DirectionType getDirectionType(String name) {
         for (DirectionType directionType : values()) {
-            if (directionType.getName().equals(name)) {
+            if (directionType.getName().equals(name) || directionType.getDirection().toString().equals(name)) {
                 return directionType;
             }
         }
