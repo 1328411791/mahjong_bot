@@ -35,7 +35,9 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
             double newRating = 0;
             // 与其他三个玩家比较
             for (int j = 0; j < playerIds.size(); j++) {
-                if (i == j) continue;
+                if (i == j) {
+                    continue;
+                }
                 Integer opponentId = playerIds.get(j);
                 double opponentRating = ratings.get(opponentId).doubleValue();
                 double opponentScore = scores.get(opponentId).doubleValue();
@@ -44,7 +46,8 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
                 double actual = calculateActualScore(playerScore, opponentScore);
                 double kFactor = calculateKFactor(playerScore, opponentScore);
 
-                newRating +=  kFactor * (actual - expected);  // 更新评分
+                // 更新评分
+                newRating += kFactor * (actual - expected);
             }
             BigDecimal change = BigDecimal.valueOf(playerRating + newRating);
             eloChanges.put(playerId, change);
@@ -65,8 +68,12 @@ public class RCREloCalculateServiceImpl implements EloCalculateService {
      */
     private double calculateActualScore(double playerScore, double opponentScore) {
 
-       if (playerScore > opponentScore) return 1.0;
-       if (playerScore == opponentScore) return 0.5;
+        if (playerScore > opponentScore) {
+            return 1.0;
+        }
+        if (playerScore == opponentScore) {
+            return 0.5;
+        }
        return 0;
     }
 
