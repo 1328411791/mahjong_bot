@@ -17,4 +17,18 @@
         id,type,create_user_id,
         create_group_id,create_time,update_time
     </sql>
+
+    <select id="selectRecentContest" resultType="org.liahnu.bot.model.vo.contest.UserLastContestVO">
+        select contest_id, user_id, end_point, elo_change, update_time as time
+        from (select id, type, create_user_id, create_group_id
+              from contest
+              where create_user_id = #{userId}
+                and status = 'END'
+                and type = #{type}) as `contest`
+           , contest_end
+        where contest.id = contest_end.contest_id
+          and contest_end.user_id = 1
+        order by time desc
+        limit #{limit};
+    </select>
 </mapper>

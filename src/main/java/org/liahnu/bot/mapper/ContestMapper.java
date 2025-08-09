@@ -1,8 +1,12 @@
 package org.liahnu.bot.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.liahnu.bot.model.domain.Contest;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.liahnu.bot.model.type.ContestType;
+import org.liahnu.bot.model.vo.contest.UserLastContestVO;
+
+import java.util.List;
 
 /**
 * @author li hanyu
@@ -12,6 +16,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 @Mapper
 public interface ContestMapper extends BaseMapper<Contest> {
+
+    /*
+     * 统计用户最近 limit 场比赛记录结果
+     */
+    List<UserLastContestVO> selectRecentContest(Integer userId, ContestType type, Integer limit);
 
 }
 
